@@ -1,0 +1,16 @@
+---
+Name: contacts-extensions
+---
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - Clesson\Contacts\Extensions\SiteConfigOwner
+
+SilverStripe\Security\Member:
+  extensions:
+    - Clesson\Contacts\Extensions\ContactableMember
+
+SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
+  extensions:
+    - Clesson\Contacts\Extensions\ContactForm
+

@@ -1,0 +1,94 @@
+en:
+  Clesson\Contacts\Common:
+    ID: 'ID'
+    CREATED: 'Created'
+    LAST_EDITED: 'Last edited'
+
+
+  Clesson\Contacts\Admins\ContactManager:
+    MENUTITLE: 'Contacts'
+
+  Clesson\Contacts\Models\Address:
+    PLURALNAME: 'Addresses'
+    SINGULARNAME: 'Address'
+    NAME: 'Label'
+    ADDRESS_LINE_1: 'Address line 1'
+    ADDRESS_LINE_2: 'Address line 2'
+    CITY: 'City'
+    POSTAL_CODE: 'Postal code'
+    REGION: 'Region'
+    COUNTRY_CODE: 'Country'
+    SUMMARY: 'Full address'
+
+  Clesson\Contacts\Models\AddressType:
+    PLURALNAME: 'Address types'
+    SINGULARNAME: 'Address type'
+    NAME: 'Name'
+    UKEY: 'Unique key'
+    ADDRESSES: 'Assigned addresses'
+
+  Clesson\Contacts\Models\ContactTag:
+    PLURALNAME: 'Contact tags'
+    SINGULARNAME: 'Contact tag'
+    NAME: 'Name'
+    UKEY: 'Unique key'
+    CONTACTS: 'Assigned contacts'
+
+  Clesson\Contacts\Models\Contact:
+    PLURALNAME: 'Contacts'
+    SINGULARNAME: 'Contact'
+    NAME: 'Display name'
+    NOTE: 'Note'
+    ADDRESSES: 'Addresses'
+    TAGS: 'Tags'
+    CONTACT_PERMISSIONS: 'Contacts'
+    USE_CONTACTS: 'Edit and use contacts'
+    USE_CONTACTS_HELP: 'Allows editing and management of contact records'
+    DOWNLOAD_CONTACTS: 'Download contacts'
+    DOWNLOAD_CONTACTS_HELP: 'Allows downloading contact records as vCards'
+    ACCOUNT: 'System user'
+    DOWNLOAD_VCARD: 'Download vCard'
+    CUSTOMER_NUMBER: 'Customer number'
+    CUSTOMER_NUMBER_DESCRIPTION: 'Auto-generated from the template configured in Settings. You may override it manually.'
+    CUSTOMER_NUMBER_NOT_UNIQUE: 'The customer number "{number}" is already in use. Please choose a different one.'
+    SINCE: 'Customer since'
+    NAME1: 'Company name'
+    NAME2: 'Company name suffix'
+    GENDER: 'Gender'
+    PERSON_TITLE: 'Title'
+    FIRST_NAME: 'First name'
+    LAST_NAME: 'Last name'
+    NICKNAME: 'Nickname'
+    SECOND_NAME: 'Middle name'
+    SUFFIX: 'Suffix'
+    BIRTHDAY: 'Date of birth'
+    DAY_OF_DEATH: 'Date of death'
+    ANNIVERSARY: 'Anniversary'
+    MARITAL_STATUS: 'Marital status'
+    AGE: 'Age'
+    FULL_NAME: 'Full name'
+    HOME_ADDRESS: 'Home address'
+    BUSINESS_ADDRESS: 'Business address'
+    OTHER_ADDRESS: 'Other address'
+
+  SilverStripe\Security\Member:
+    Contact: 'Linked contact'
+
+  Duration:
+    Years: '{n} years'
+    Months: '{n} months'
+    Days: '{n} days'
+
+  Clesson\Contacts\Constants\Gender:
+    NOT_KNOWN: 'Unknown'
+    MALE: 'Male'
+    FEMALE: 'Female'
+    NOT_APPLICABLE: 'Not applicable'
+    SALUTATION_MALE: 'Mr.'
+    SALUTATION_FEMALE: 'Ms.'
+
+  Clesson\Contacts\Extensions\SiteConfigOwner:
+    SITE_OWNER: 'Owner of website'
+    TAB_CONTACTS: 'Contacts'
+    CUSTOMER_NUMBER_TEMPLATE: 'Customer number template'
+    CUSTOMER_NUMBER_TEMPLATE_DESCRIPTION: 'Template for auto-generating customer numbers. Available variables: {Y} year (4-digit), {y} year (2-digit), {m} month, {d} day, {H} hour, {i} minute, {s} second — {N:3} random digits (length 3), {A:2} random letters (length 2), {X:4} random letters+digits (length 4). Example: K-{Y}-{N:3} → K-2026-047'

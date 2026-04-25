@@ -1,0 +1,221 @@
+/* .contact-form -> ModelAdmin */
+/* .contact-form -> Contact DetailView */
+
+/* Force full width for the detail form and all its parent containers */
+.contact-form,
+.contact-form > *,
+form.contact-form,
+.panel.panel--padded:has(.contact-form),
+.cms-content-fields:has(.contact-form),
+.form--no-dividers:has(.contact-form),
+.grid-field__detail-view:has(.contact-form),
+.gridfield-better-buttons-prevnext-button-wrapper:has(.contact-form) {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* Override Bootstrap grid gutter within contact-form */
+.contact-form .form-group {
+  --bs-gutter-x: 0 !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.contact-manager--contact .contact-icon {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: #5589a7;
+  text-align: center;
+  background: #d8e4eb;
+  font-weight: 700;
+  text-shadow: 0 0 2px rgb(255, 255, 255);
+}
+
+.contact-form .contact-holder {
+  display: block;
+  max-width: none !important;
+  width: 100% !important;
+}
+.contact-form .contact-holder > .form__fieldgroup {
+  display: flex;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  padding: 0;
+  max-width: none !important;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-marginal {
+  border-right: 1px solid #ced5e1;
+  background-color: #d8e4eb;
+  flex: 0 0 250px;
+  max-width: 250px;
+  margin: 0;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-marginal > .form__fieldgroup.form__field-holder {
+  padding: 0;
+  padding-right: 3.077rem;
+  padding-left: 19px;
+  margin: 1.5385rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-marginal > .form__fieldgroup.form__field-holder .contact-marginal--fixed {
+  border-top: 3px dotted #fff;
+  height: 100px;
+  margin-bottom: 0;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-marginal > .form__fieldgroup.form__field-holder .contact-marginal--fixed .form__fieldgroup {
+  margin-bottom: 0;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-main {
+  flex: 1;
+  min-width: calc(100vw - 455px);
+  padding: 1.5385rem 0;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-main > .form__fieldgroup.form__field-holder {
+  margin: 1.5385rem;
+  padding-right: 1.5rem;
+  max-width: 100%;
+}
+.contact-form .contact-holder > .form__fieldgroup .contact-main table.grid-field__table {
+  margin: 1.5385rem 0;
+}
+.contact-form > .panel > fieldset {
+  height: 100% !important;
+}
+.contact-form > .panel > fieldset > .contact-holder {
+  height: 100% !important;
+  padding-bottom: 0;
+}
+.contact-form > .panel > fieldset > .contact-holder > .form__fieldgroup {
+  height: 100% !important;
+}
+.contact-form .form-group:not(.stacked) .form__field-holder {
+  max-width: unset;
+}
+.contact-form .panel--padded {
+  padding: 0;
+}
+.contact-form input[type=text]:disabled {
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+.contact-form table.grid-field__table input {
+  border: none;
+  box-shadow: none;
+}
+.contact-form table.grid-field__table select {
+  border: none;
+  box-shadow: none;
+}
+.contact-form .form__fieldgroup.prefix {
+  display: flex;
+  padding-right: 12px !important;
+}
+.contact-form .form__fieldgroup.prefix .field.gender {
+  flex: 1;
+}
+.contact-form .form__fieldgroup.prefix .field.title {
+  flex: 2;
+}
+.contact-form .form__fieldgroup.prefix .field.suffix {
+  flex: 1;
+}
+.contact-form .form__fieldgroup.name {
+  display: flex;
+  padding-right: 12px !important;
+}
+.contact-form .form__fieldgroup.name .field.firstname {
+  flex: 1;
+}
+.contact-form .form__fieldgroup.name .field.secondname {
+  flex: 1;
+}
+.contact-form .form__fieldgroup.name .field.lastname {
+  flex: 2;
+}
+
+.horizontal-field.form-group {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+.horizontal-field.form-group > .form__field-label {
+  flex: 1 !important;
+  text-align: right;
+}
+.horizontal-field.form-group > .form__field-holder {
+  flex: 2 !important;
+}
+
+.type-filter,
+.char-filter {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5385rem;
+}
+.type-filter > button.action,
+.char-filter > button.action {
+  border: 1px solid #e9f0f4;
+  background: #fff;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #004e7f;
+  aspect-ratio: 1/1;
+}
+.type-filter > button.action:hover,
+.char-filter > button.action:hover {
+  background-color: #d8e4eb;
+  border-color: #004e7f;
+  color: #004e7f;
+}
+.type-filter > button.action.active,
+.char-filter > button.action.active {
+  background-color: #004e7f;
+  border-color: #004e7f;
+  color: #fff;
+}
+
+.type-filter {
+  justify-content: left;
+}
+.type-filter > button.action {
+  aspect-ratio: unset;
+  max-width: fit-content;
+  padding: 8px;
+}
+
+.address-form .form__fieldgroup.postal-code-city {
+  display: flex;
+  padding-right: 12px !important;
+}
+.address-form .form__fieldgroup.postal-code-city field.postal-code {
+  flex: 1;
+}
+.address-form .form__fieldgroup.postal-code-city .field.city {
+  flex: 4;
+}
+.address-form .form__fieldgroup.telephone-fax {
+  display: flex;
+  padding-right: 12px !important;
+}
+.address-form .form__fieldgroup.telephone-fax .field.telephone {
+  flex: 1;
+}
+.address-form .form__fieldgroup.telephone-fax .field.fax {
+  flex: 1;
+}
+

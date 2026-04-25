@@ -1,0 +1,95 @@
+de:
+  Clesson\Contacts\Common:
+    ID: 'ID'
+    CREATED: 'Erstellt'
+    LAST_EDITED: 'Zuletzt geändert'
+
+  Clesson\Contacts\Admins\ContactManager:
+    MENUTITLE: 'Kontakte'
+
+  Clesson\Contacts\Models\Address:
+    PLURALNAME: 'Adressen'
+    SINGULARNAME: 'Adresse'
+    NAME: 'Bezeichnung'
+    ADDRESS_LINE_1: 'Adresszeile 1'
+    ADDRESS_LINE_2: 'Adresszeile 2'
+    CITY: 'Stadt'
+    POSTAL_CODE: 'Postleitzahl'
+    REGION: 'Bundesland'
+    COUNTRY_CODE: 'Land'
+    SUMMARY: 'Ganze Adresse'
+
+  Clesson\Contacts\Models\AddressType:
+    PLURALNAME: 'Adressarten'
+    SINGULARNAME: 'Adressart'
+    TITLE: 'Gruppenname'
+    NAME: 'Gruppenname'
+    UKEY: 'Eindeutiger Schlüssel'
+    ADDRESSES: 'Zugeordnete Adressen'
+
+  Clesson\Contacts\Models\ContactTag:
+    PLURALNAME: 'Kontaktgruppen'
+    SINGULARNAME: 'Kontaktgruppe'
+    TITLE: 'Gruppenname'
+    NAME: 'Gruppenname'
+    UKEY: 'Eindeutiger Schlüssel'
+    CONTACTS: 'Zugeordnete Kontakte'
+
+  Clesson\Contacts\Models\Contact:
+    PLURALNAME: 'Kontakte'
+    SINGULARNAME: 'Kontakt'
+    NAME: 'Name'
+    NOTE: 'Notiz'
+    ADDRESSES: 'Adressen'
+    TAGS: 'Gruppen'
+    CONTACT_PERMISSIONS: 'Kontakte'
+    USE_CONTACTS: 'Kontakte bearbeiten und verwenden'
+    USE_CONTACTS_HELP: 'Erlaubt das Bearbeiten und Verwalten von Kontaktdatensätzen'
+    DOWNLOAD_CONTACTS: 'Kontakte herunterladen'
+    DOWNLOAD_CONTACTS_HELP: 'Erlaubt das Herunterladen von Kontaktdatensätzen als vCards'
+    ACCOUNT: 'Systembenutzer'
+    DOWNLOAD_VCARD: 'Visitenkarte'
+    CUSTOMER_NUMBER: 'Kundennummer'
+    CUSTOMER_NUMBER_DESCRIPTION: 'Wird automatisch aus der in den Einstellungen hinterlegten Vorlage generiert. Sie können den Wert manuell überschreiben.'
+    CUSTOMER_NUMBER_NOT_UNIQUE: 'Die Kundennummer „{number}" wird bereits verwendet. Bitte wählen Sie eine andere.'
+    SINCE: 'Kunde seit'
+    NAME1: 'Firmenname'
+    NAME2: 'Firmenzusatz'
+    GENDER: 'Geschlecht'
+    PERSON_TITLE: 'Titel'
+    FIRST_NAME: 'Vorname'
+    LAST_NAME: 'Nachname'
+    NICKNAME: 'Nickname'
+    SECOND_NAME: 'Zweiter Vorname'
+    SUFFIX: 'Namenszusatz'
+    BIRTHDAY: 'Geburtstag'
+    DAY_OF_DEATH: 'Todestag'
+    ANNIVERSARY: 'Jahrestag'
+    MARITAL_STATUS: 'Familienstand'
+    AGE: 'Alter'
+    FULL_NAME: 'Name'
+    HOME_ADDRESS: 'Privatadresse'
+    BUSINESS_ADDRESS: 'Geschäftsadresse'
+    OTHER_ADDRESS: 'Weitere Adresse'
+
+  SilverStripe\Security\Member:
+    Contact: 'Verknüpfter Kontakt'
+
+  Duration:
+    Years: '{n} Jahre'
+    Months: '{n} Monate'
+    Days: '{n} Tage'
+
+  Clesson\Contacts\Constants\Gender:
+    NOT_KNOWN: 'Unbekannt'
+    MALE: 'Männlich'
+    FEMALE: 'Weiblich'
+    NOT_APPLICABLE: 'Divers'
+    SALUTATION_MALE: 'Hr.'
+    SALUTATION_FEMALE: 'Fr.'
+
+  Clesson\Contacts\Extensions\SiteConfigOwner:
+    SITE_OWNER: 'Eigentümer der Webseite'
+    TAB_CONTACTS: 'Kontakte'
+    CUSTOMER_NUMBER_TEMPLATE: 'Vorlage für Kundennummer'
+    CUSTOMER_NUMBER_TEMPLATE_DESCRIPTION: 'Vorlage zur automatischen Generierung von Kundennummern. Verfügbare Variablen: {Y} Jahr (4-stellig), {y} Jahr (2-stellig), {m} Monat, {d} Tag, {H} Stunde, {i} Minute, {s} Sekunde — {N:3} Zufallszahl (Länge 3), {A:2} Zufallsbuchstaben (Länge 2), {X:4} Zufalls-Buchstaben+Ziffern (Länge 4). Beispiel: K-{Y}-{N:3} → K-2026-047'

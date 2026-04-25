@@ -1,0 +1,24 @@
+---
+Name: contacts-config
+---
+
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - clesson-de/silverstripe-contacts:client/admin/dist/bundle.css
+  extra_requirements_javascript:
+    - clesson-de/silverstripe-contacts:client/admin/dist/address-region-dropdown.js
+
+
+SilverStripe\Assets\Image:
+  belongs_to:
+    Contact: Clesson\Contacts\Models\Contact
+
+Clesson\Contacts\Models\AddressType:
+  default_tags:
+    invoice-address: 'Invoice address'
+    delivery-address: 'Delivery address'
+
+Clesson\Contacts\Models\ContactTag:
+  default_tags:
+    client: 'Clients'
+    customer: 'Customers'

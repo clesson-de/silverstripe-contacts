@@ -1,0 +1,250 @@
+$color_1: #5589a7;
+$color_2: #d8e4eb;
+
+$white: #fff;
+$lightblue: #d8e4eb;
+$blue: #e9f0f4;
+$darkblue: #004e7f;
+
+
+/* .contact-form -> ModelAdmin */
+/* .contact-form -> Contact DetailView */
+.contact-manager--contact {
+    .contact-icon {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 50%;
+        font-size: 16px;
+        color: $color_1;
+        text-align: center;
+        background: #d8e4eb;
+        font-weight: 700;
+        text-shadow: 0 0 2px rgba(255, 255, 255, 1);
+    }
+}
+
+.contact-form {
+    .contact-holder {
+        display: block;
+
+        > .form__fieldgroup {
+            display: flex;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+            padding: 0;
+
+            .contact-marginal {
+                border-right: 1px solid #ced5e1;
+                background-color: $lightblue;
+                flex: 0 0 250px;
+                max-width: 250px;
+                margin: 0;
+
+                > .form__fieldgroup.form__field-holder {
+                    padding: 0;
+                    padding-right: 3.077rem;
+                    padding-left: 19px;
+                    margin: 1.5385rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    height: 100%;
+
+                    .contact-marginal--fixed {
+                        border-top: 3px dotted #fff;
+                        height: 100px;
+                        margin-bottom: 0;
+
+                        .form__fieldgroup {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+
+            .contact-main {
+                flex: 1;
+                min-width: calc(100vw - 455px);
+                padding: 1.5385rem 0;
+
+                > .form__fieldgroup.form__field-holder {
+                    margin: 1.5385rem;
+                    padding-right: 1.5rem;
+                }
+
+                table.grid-field__table {
+                    margin: 1.5385rem 0;
+                }
+            }
+        }
+    }
+
+    > .panel {
+        > fieldset {
+            height: 100% !important;
+
+            > .contact-holder {
+                height: 100% !important;
+                padding-bottom: 0;
+
+                > .form__fieldgroup {
+                    height: 100% !important;
+                }
+            }
+        }
+    }
+
+    .form-group {
+        &:not(.stacked) {
+            .form__field-holder {
+                max-width: unset;
+            }
+        }
+    }
+
+    .panel--padded {
+        padding: 0;
+    }
+
+    input[type="text"] {
+        &:disabled {
+            border: none;
+            background: none;
+            padding: 0;
+            box-shadow: none;
+        }
+    }
+
+    table.grid-field__table {
+        input {
+            border: none;
+            box-shadow: none;
+        }
+
+        select {
+            border: none;
+            box-shadow: none;
+        }
+    }
+
+    .form__fieldgroup.prefix {
+        display: flex;
+        padding-right: 12px !important;
+
+        .field.gender {
+            flex: 1;
+        }
+
+        .field.title {
+            flex: 2;
+        }
+
+        .field.suffix {
+            flex: 1;
+        }
+    }
+
+    .form__fieldgroup.name {
+        display: flex;
+        padding-right: 12px !important;
+
+        .field.firstname {
+            flex: 1;
+        }
+
+        .field.secondname {
+            flex: 1;
+        }
+
+        .field.lastname {
+            flex: 2;
+        }
+    }
+}
+
+.horizontal-field.form-group {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+
+    > .form__field-label {
+        flex: 1 !important;
+        text-align: right;
+    }
+
+    > .form__field-holder {
+        flex: 2 !important;
+    }
+}
+
+.type-filter,
+.char-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5385rem;
+
+    > button.action {
+        border: 1px solid $blue;
+        background: $white;
+        flex: 1;
+        font-size: 13px;
+        font-weight: 500;
+        color: $darkblue;
+        aspect-ratio: 1 / 1;
+
+        &:hover {
+            background-color: $lightblue;
+            border-color: $darkblue;
+            color: $darkblue;
+        }
+
+        &.active {
+            background-color: $darkblue;
+            border-color: $darkblue;
+            color: $white;
+        }
+    }
+}
+
+.type-filter {
+    justify-content: left;
+
+    > button.action {
+        aspect-ratio: unset;
+        max-width: fit-content;
+        padding: 8px;
+    }
+}
+
+.address-form {
+    .form__fieldgroup.postal-code-city {
+        display: flex;
+        padding-right: 12px !important;
+
+        field.postal-code {
+            flex: 1;
+        }
+
+        .field.city {
+            flex: 4;
+        }
+    }
+
+    .form__fieldgroup.telephone-fax {
+        display: flex;
+        padding-right: 12px !important;
+
+        .field.telephone {
+            flex: 1;
+        }
+
+        .field.fax {
+            flex: 1;
+        }
+    }
+}
