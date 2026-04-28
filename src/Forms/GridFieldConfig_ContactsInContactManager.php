@@ -4,8 +4,10 @@ namespace Clesson\Silverstripe\Contacts\Forms;
 
 use Clesson\Silverstripe\Contacts\Models\Company;
 use Clesson\Silverstripe\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\ContactTag;
 use Clesson\Silverstripe\Contacts\Models\Employee;
 use Clesson\Silverstripe\Contacts\Models\Person;
+use Clesson\Silverstripe\Forms\GridField\GridField_ButtonFilter;
 use Clesson\Silverstripe\Forms\GridField\GridField_CharFilter;
 use SilverStripe\Forms\GridField\GridField_ActionMenu;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
@@ -56,6 +58,21 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
         $this->addComponent(new GridField_CharFilter('before', 'SortingName', 'A-Z|0-9'));
 
+        /** @var GridField_ButtonFilter $classFilter */
+        $classFilter = new GridField_ButtonFilter('before', 'ClassName', [
+            Company::class => _t(Company::class . '.PLURALNAME', 'Companies'),
+            Person::class => _t(Person::class . '.PLURALNAME', 'Persons'),
+            Employee::class => _t(Employee::class . '.PLURALNAME', 'Employees'),
+        ]);
+        $classFilter->setMultiselect(true);
+        $classFilter->setSelectedValues([Company::class, Person::class]);
+        $this->addComponent($classFilter);
+
+        /** @var GridField_ButtonFilter $tagFilter */
+        $tagFilter = new GridField_ButtonFilter('before', 'Tags.ID', $this->buildTagFilterValues());
+        $tagFilter->setMultiselect(true);
+        $this->addComponent($tagFilter);
+
         /** @var GridFieldAddNewMultiClass $addButton */
         $addButton = GridFieldAddNewMultiClass::create('buttons-before-right');
         $addButton->setClasses([
@@ -103,6 +120,22 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         ]);
 
         $this->extend('updateConfig');
+    }
+
+    /**
+     * Builds the associative array of tag filter values from the database.
+     * Keys are tag IDs (as strings), values are the translated tag names.
+     *
+     * @return array<string, string>
+     */
+    private function buildTagFilterValues(): array
+    {
+        $values = [];
+        foreach (ContactTag::get() as $tag) {
+            $values[(string) $tag->ID] = (string) $tag->Name;
+        }
+
+        return $values;
     }
 }
 
