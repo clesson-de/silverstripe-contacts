@@ -1,8 +1,8 @@
 <?php
 
-namespace Clesson\Contacts\Forms;
+namespace Clesson\Silverstripe\Contacts\Forms;
 
-use Clesson\Contacts\Models\ContactTag;
+use Clesson\Silverstripe\Contacts\Models\ContactTag;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\Forms\GridField\GridFieldConfig;
@@ -17,7 +17,7 @@ use SilverStripe\ORM\FieldType\DBField;
 /**
  * GridField configuration for displaying ContactTag records in the ContactManager.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Forms
  */
 class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
@@ -55,13 +55,13 @@ class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
                 },
             ],
             'Created' => [
-                'title' => _t('Clesson\Contacts\Common.CREATED', 'Created'),
+                'title' => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
                 'callback' => function ($record, $column, $grid) {
                     return DBField::create_field('DBDatetime', $record->Created);
                 },
             ],
             'LastEdited' => [
-                'title' => _t('Clesson\Contacts\Common.LASTEDITED', 'Last edited'),
+                'title' => _t('Clesson\Silverstripe\Contacts\Common.LASTEDITED', 'Last edited'),
                 'callback' => function ($record, $column, $grid) {
                     return DBField::create_field('DBDatetime', $record->LastEdited);
                 },

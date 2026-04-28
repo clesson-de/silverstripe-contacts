@@ -1,11 +1,13 @@
 <?php
 
-namespace Clesson\Contacts\Forms;
+namespace Clesson\Silverstripe\Contacts\Forms;
 
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Company;
+use Clesson\Silverstripe\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Employee;
+use Clesson\Silverstripe\Contacts\Models\Person;
 use Clesson\Silverstripe\Forms\GridField\GridField_CharFilter;
 use SilverStripe\Forms\GridField\GridField_ActionMenu;
-use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
@@ -18,11 +20,12 @@ use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
 use SilverStripe\ORM\FieldType\DBField;
+use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 
 /**
  * GridField configuration for displaying Contact records in the ContactManager.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Forms
  */
 class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
@@ -52,7 +55,15 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldPaginator::create($itemsPerPage));
         $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
         $this->addComponent(new GridField_CharFilter('before', 'SortingName', 'A-Z|0-9'));
-        $this->addComponent(GridFieldAddNewButton::create('buttons-before-right'));
+
+        /** @var GridFieldAddNewMultiClass $addButton */
+        $addButton = GridFieldAddNewMultiClass::create('buttons-before-right');
+        $addButton->setClasses([
+            Company::class,
+            Person::class,
+            Employee::class,
+        ]);
+        $this->addComponent($addButton);
 
         $dataColumns->setDisplayFields([
             'Icon' => [
@@ -78,13 +89,13 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
                 },
             ],
             'Created' => [
-                'title' => _t('Clesson\Contacts\Common.CREATED', 'Created'),
+                'title' => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
                 'callback' => function ($record, $column, $grid) {
                     return DBField::create_field('DBDatetime', $record->Created);
                 },
             ],
             'LastEdited' => [
-                'title' => _t('Clesson\Contacts\Common.LAST_EDITED', 'Last edited'),
+                'title' => _t('Clesson\Silverstripe\Contacts\Common.LAST_EDITED', 'Last edited'),
                 'callback' => function ($record, $column, $grid) {
                     return DBField::create_field('DBDatetime', $record->LastEdited);
                 },

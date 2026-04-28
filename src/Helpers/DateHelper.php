@@ -1,13 +1,13 @@
 <?php
 
-namespace Clesson\Contacts\Helpers;
+namespace Clesson\Silverstripe\Contacts\Helpers;
 
 use DateTime;
 
 /**
  * Helper class for date-related utility methods.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Helpers
  */
 class DateHelper

@@ -4,13 +4,21 @@ Name: contacts-extensions
 
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - Clesson\Contacts\Extensions\SiteConfigOwner
+    - Clesson\Silverstripe\Contacts\Extensions\SiteConfigOwner
 
 SilverStripe\Security\Member:
   extensions:
-    - Clesson\Contacts\Extensions\ContactableMember
+    - Clesson\Silverstripe\Contacts\Extensions\ContactableMember
 
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
-    - Clesson\Contacts\Extensions\ContactForm
+    - Clesson\Silverstripe\Contacts\Extensions\ContactForm
+
+Clesson\Silverstripe\Contacts\Models\Contact:
+  extensions:
+    - Clesson\Silverstripe\Contacts\Extensions\ContactPaymentAccountsExtension
+
+Clesson\Silverstripe\PaymentAccount\Models\PaymentAccount:
+  extensions:
+    - Clesson\Silverstripe\Contacts\Extensions\PaymentAccountContactExtension
 

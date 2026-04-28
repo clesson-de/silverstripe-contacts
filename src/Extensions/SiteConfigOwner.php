@@ -1,12 +1,10 @@
 <?php
 
-namespace Clesson\Contacts\Extensions;
+namespace Clesson\Silverstripe\Contacts\Extensions;
 
-use Clesson\Contacts\Helpers\CustomerNumberHelper;
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Contact;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Security\Permission;
 use SilverStripe\Core\Extension;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -14,14 +12,12 @@ use SilverStripe\View\TemplateGlobalProvider;
 
 /**
  * An extension for the SiteConfig class.
- * Allows to define a contact as the owner of the website and to configure
- * the customer number template used for auto-generating customer numbers.
+ * Allows to define a contact as the owner of the website.
  *
  * @property int    $Contacts_SiteOwnerID
- * @property string $Contacts_CustomerNumberTemplate
  * @method Contact Contacts_SiteOwner()
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Extensions
  */
 class SiteConfigOwner extends Extension implements TemplateGlobalProvider
@@ -37,29 +33,9 @@ class SiteConfigOwner extends Extension implements TemplateGlobalProvider
     /**
      * @inheritdoc
      */
-    private static $db = [
-        'Contacts_CustomerNumberTemplate' => 'Varchar(255)',
-    ];
-
-    /**
-     * Sets the default customer number template when no value is stored yet.
-     *
-     * @return void
-     */
-    public function populateDefaults(): void
-    {
-        if (!$this->getOwner()->Contacts_CustomerNumberTemplate) {
-            $this->getOwner()->Contacts_CustomerNumberTemplate = CustomerNumberHelper::DEFAULT_TEMPLATE;
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function updateFieldLabels(&$labels): void
     {
-        $labels['Contacts_SiteOwner']                  = _t(__CLASS__ . '.SITE_OWNER', 'Owner of website');
-        $labels['Contacts_CustomerNumberTemplate']     = _t(__CLASS__ . '.CUSTOMER_NUMBER_TEMPLATE', 'Customer number template');
+        $labels['Contacts_SiteOwner'] = _t(__CLASS__ . '.SITE_OWNER', 'Owner of website');
     }
 
     /**
@@ -80,30 +56,6 @@ class SiteConfigOwner extends Extension implements TemplateGlobalProvider
         }
 
         $fields->addFieldToTab('Root.Main', $siteOwnerField);
-
-        /** @var TextField $templateField */
-        $templateField = TextField::create(
-            'Contacts_CustomerNumberTemplate',
-            $this->getOwner()->fieldLabel('Contacts_CustomerNumberTemplate')
-        );
-        $templateField->setAttribute('placeholder', CustomerNumberHelper::DEFAULT_TEMPLATE);
-        $templateField->setDescription(
-            _t(
-                __CLASS__ . '.CUSTOMER_NUMBER_TEMPLATE_DESCRIPTION',
-                'Template for auto-generating customer numbers. '
-                . 'Available variables: '
-                . '{Y} year (4-digit), {y} year (2-digit), {m} month, {d} day, {H} hour, {i} minute, {s} second — '
-                . '{N:3} random digits (length 3), '
-                . '{A:2} random letters (length 2), '
-                . '{X:4} random letters+digits (length 4). '
-                . 'Example: K-{Y}-{N:3} → K-2026-047'
-            )
-        );
-
-        $fields->addFieldToTab(
-            'Root.' . _t(__CLASS__ . '.TAB_CONTACTS', 'Contacts'),
-            $templateField
-        );
     }
 
     /**

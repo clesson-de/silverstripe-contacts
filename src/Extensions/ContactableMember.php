@@ -1,8 +1,8 @@
 <?php
 
-namespace Clesson\Contacts\Extensions;
+namespace Clesson\Silverstripe\Contacts\Extensions;
 
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Contact;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Security\Member;
@@ -14,7 +14,7 @@ use SilverStripe\Core\Extension;
  * @property int $ContactID
  * @method Contact Contact()
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Extensions
  */
 class ContactableMember extends Extension

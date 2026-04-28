@@ -1,40 +1,41 @@
 {
-  "name": "clesson-de/silverstripe-contacts",
-  "description": "All contacts and addresses at one place.",
-  "type": "silverstripe-vendormodule",
-  "keywords": [
-    "silverstripe",
-    "extension",
-    "member",
-    "contact",
-    "address"
-  ],
-  "authors": [
-    {
-      "name": "Kai Feldmaier",
-      "email": "kai.feldmaier@clesson.de",
-      "homepage": "https://clesson.de"
-    }
-  ],
-  "require": {
-    "silverstripe/framework": "^6",
-    "jeroendesloovere/vcard": "^1.7",
-    "giggsey/libphonenumber-for-php": "^8.13",
-    "commerceguys/addressing": "^2.1",
-    "lekoala/silverstripe-cms-actions": "^2",
-    "symbiote/silverstripe-gridfieldextensions": "^5",
-    "clesson-de/silverstripe-gridfield-pro": "^2"
-  },
-  "autoload": {
-    "psr-4": {
-      "Clesson\\Contacts\\": "src/"
-    }
-  },
-  "extra": {
-    "expose": [
-      "client/admin/dist"
-    ]
-  },
-  "prefer-stable": true,
-  "minimum-stability": "dev"
+    "name": "clesson-de/silverstripe-contacts",
+    "description": "All contacts and addresses at one place.",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "extension",
+        "member",
+        "contact",
+        "address"
+    ],
+    "authors": [
+        {
+            "name": "Kai Feldmaier",
+            "email": "kai.feldmaier@clesson.de",
+            "homepage": "https://clesson.de"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "^6",
+        "clesson-de/silverstripe-geocoding": "^1",
+        "clesson-de/silverstripe-payment-accounts": "^1",
+        "jeroendesloovere/vcard": "^1.7",
+        "giggsey/libphonenumber-for-php": "^8.13",
+        "lekoala/silverstripe-cms-actions": "^2",
+        "symbiote/silverstripe-gridfieldextensions": "^5",
+        "clesson-de/silverstripe-gridfield-pro": "^1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clesson\\Silverstripe\\Contacts\\": "src/"
+        }
+    },
+    "extra": {
+        "expose": [
+            "client/admin/dist"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

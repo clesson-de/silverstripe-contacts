@@ -1,15 +1,15 @@
 <?php
 
-namespace Clesson\Contacts\Controllers;
+namespace Clesson\Silverstripe\Contacts\Controllers;
 
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Contact;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 
 /**
  * Controller actions for the Contact models.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Controllers
  */
 class ContactController extends \SilverStripe\Control\Controller

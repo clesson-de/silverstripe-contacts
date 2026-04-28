@@ -7,5 +7,4 @@ After:
 
 SilverStripe\Control\Director:
   rules:
-    'contacts-api/address//$Action': 'Clesson\Contacts\Controllers\AddressController'
-    'contact//$Action/$Slug': 'Clesson\Contacts\Controllers\ContactController'
+    'contact//$Action/$Slug': 'Clesson\Silverstripe\Contacts\Controllers\ContactController'

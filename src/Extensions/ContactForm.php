@@ -1,6 +1,6 @@
 <?php
 
-namespace Clesson\Contacts\Extensions;
+namespace Clesson\Silverstripe\Contacts\Extensions;
 
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Extension;
@@ -9,7 +9,7 @@ use SilverStripe\Core\Extension;
  * Extension for the GridFieldDetailForm_ItemRequest class. The only purpose of this class is to add a CSS class to the
  * DetailForm <form> element so that the globally loaded CSS can make a restricted selection.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Extensions
  */
 class ContactForm extends Extension

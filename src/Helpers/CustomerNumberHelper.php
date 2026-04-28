@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Clesson\Contacts\Helpers;
+namespace Clesson\Silverstripe\Contacts\Helpers;
 
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Contact;
 
 /**
  * Helper for generating customer numbers from a configurable template.
@@ -21,7 +21,7 @@ use Clesson\Contacts\Models\Contact;
  * - `{Y}{m}-{X:4}`  → `202603-A7K2`
  * - `{A:2}{N:4}`    → `KX0391`
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Helpers
  */
 class CustomerNumberHelper

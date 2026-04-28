@@ -11,14 +11,14 @@ SilverStripe\Admin\LeftAndMain:
 
 SilverStripe\Assets\Image:
   belongs_to:
-    Contact: Clesson\Contacts\Models\Contact
+    Contact: Clesson\Silverstripe\Contacts\Models\Contact
 
-Clesson\Contacts\Models\AddressType:
+Clesson\Silverstripe\Geocoding\Models\AddressType:
   default_tags:
     invoice-address: 'Invoice address'
     delivery-address: 'Delivery address'
 
-Clesson\Contacts\Models\ContactTag:
+Clesson\Silverstripe\Contacts\Models\ContactTag:
   default_tags:
     client: 'Clients'
     customer: 'Customers'

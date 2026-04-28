@@ -1,11 +1,11 @@
 <?php
 
-namespace Clesson\Contacts\Constants;
+namespace Clesson\Silverstripe\Contacts\Constants;
 
 /**
  * Definition of genders.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Constants
  */
 class Gender

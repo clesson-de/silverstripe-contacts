@@ -1,8 +1,8 @@
 <?php
 
-namespace Clesson\Contacts\Forms;
+namespace Clesson\Silverstripe\Contacts\Forms;
 
-use Clesson\Contacts\Models\Contact;
+use Clesson\Silverstripe\Contacts\Models\Contact;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
@@ -12,7 +12,7 @@ use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
 /**
  * GridField configuration for displaying Contact records in a ContactTag.
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Forms
  */
 class GridFieldConfig_ContactsInContactTag extends GridFieldConfig

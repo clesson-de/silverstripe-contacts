@@ -1,8 +1,8 @@
 <?php
 
-namespace Clesson\Contacts\Models;
+namespace Clesson\Silverstripe\Contacts\Models;
 
-use Clesson\Contacts\Forms\GridFieldConfig_ContactsInContactTag;
+use Clesson\Silverstripe\Contacts\Forms\GridFieldConfig_ContactsInContactTag;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
@@ -19,7 +19,7 @@ use SilverStripe\Core\Validation\ValidationResult;
  * @property string $Ukey
  * @method \SilverStripe\ORM\ManyManyListContact[] Contacts()
  *
- * @package Clesson\Contacts
+ * @package Clesson\Silverstripe\Contacts
  * @subpackage Models
  */
 class ContactTag extends DataObject
@@ -75,9 +75,9 @@ class ContactTag extends DataObject
         $labels['Name'] = _t(__CLASS__ . '.NAME', 'Name');
         $labels['Ukey'] = _t(__CLASS__ . '.UKEY', 'Ukey');
         $labels['Contacts'] = _t(__CLASS__ . '.CONTACTS', 'Contacts');
-        $labels['Created'] = _t('Clesson\Contacts\Common.CREATED', 'Created');
-        $labels['LastEdited'] = _t('Clesson\Contacts\Common.LASTEDITED', 'Last edited');
-        $labels['ID'] = _t('Clesson\Contacts\Common.ID', 'ID');
+        $labels['Created'] = _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created');
+        $labels['LastEdited'] = _t('Clesson\Silverstripe\Contacts\Common.LASTEDITED', 'Last edited');
+        $labels['ID'] = _t('Clesson\Silverstripe\Contacts\Common.ID', 'ID');
         return $labels;
     }
 

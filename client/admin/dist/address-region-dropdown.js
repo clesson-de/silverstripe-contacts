@@ -50,7 +50,7 @@
 
                     // Fetch regions for selected country
                     $.ajax({
-                        url: '/contacts-api/address/regions',
+                        url: '/geocoding-api/address/regions',
                         data: {
                             country: countryCode,
                             locale: locale
