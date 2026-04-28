@@ -24,7 +24,7 @@
         "giggsey/libphonenumber-for-php": "^8.13",
         "lekoala/silverstripe-cms-actions": "^2",
         "symbiote/silverstripe-gridfieldextensions": "^5",
-        "clesson-de/silverstripe-gridfield-pro": "^1"
+        "clesson-de/silverstripe-gridfield-pro": "^2"
     },
     "autoload": {
         "psr-4": {

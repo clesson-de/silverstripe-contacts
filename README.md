@@ -34,7 +34,7 @@ A central, flexible contact management system for Silverstripe 6. Manage compani
 | giggsey/libphonenumber-for-php | `^8.13` |
 | lekoala/silverstripe-cms-actions | `^2` |
 | symbiote/silverstripe-gridfieldextensions | `^5` |
-| clesson-de/silverstripe-gridfield-pro | `^1` |
+| clesson-de/silverstripe-gridfield-pro | `^2` |
 
 ---
 
