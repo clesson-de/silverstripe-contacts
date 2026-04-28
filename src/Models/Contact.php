@@ -15,7 +15,6 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\CompositeField;
-use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\ListboxField;
@@ -482,17 +481,6 @@ class Contact extends DataObject implements PermissionProvider
             $tagsField = ListboxField::create('Tags', $this->fieldLabel('Tags'), ContactTag::get()->Map('ID', 'Title'));
             $fields->add($tagsField);
 
-            if ($this->isCustomer()) {
-                /** @var TextField $customerNumberField */
-                $customerNumberField = TextField::create('CustomerNumber', $this->fieldLabel('CustomerNumber'));
-                $customerNumberField->addExtraClass('horizontal-field');
-                $fields->add($customerNumberField);
-
-                /** @var DateField $customerSinceField */
-                $customerSinceField = DateField::create('CustomerSince', $this->fieldLabel('CustomerSince'));
-                $customerSinceField->addExtraClass('horizontal-field');
-                $fields->add($customerSinceField);
-            }
 
             $usedMemberIds = Contact::get()
                 ->exclude('ID', (int) $this->ID)
