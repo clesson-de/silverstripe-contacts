@@ -8,6 +8,13 @@ SilverStripe\Admin\LeftAndMain:
   extra_requirements_javascript:
     - clesson-de/silverstripe-contacts:client/admin/dist/address-region-dropdown.js
 
+# Map the abstract Contact class to Person as the default concrete implementation.
+# This allows Silverstripe's ORM to create an empty placeholder for unset has_one
+# relations (e.g. has_one Customer: Contact) without failing on the abstract class.
+SilverStripe\Core\Injector\Injector:
+  Clesson\Silverstripe\Contacts\Models\Contact:
+    class: Clesson\Silverstripe\Contacts\Models\Person
+
 
 SilverStripe\Assets\Image:
   belongs_to:

@@ -33,20 +33,20 @@ class Gender
     }
 
     /**
-     * @param int $value
+     * @param mixed $value
      * @return string
      */
-    public static function label(int $value): string
+    public static function label(mixed $value): string
     {
         $options = self::options();
         return isset($options[$value]) ? $options[$value] : (string)$value;
     }
 
     /**
-     * @param int $value
+     * @param mixed $value
      * @return string|null
      */
-    public static function salutation(int $value): ?string
+    public static function salutation(mixed $value): ?string
     {
         if ($value === self::MALE) {
             return _t(__CLASS__ . '.SALUTATION_MALE', 'Mr.');
@@ -57,10 +57,10 @@ class Gender
     }
 
     /**
-     * @param int $value
+     * @param mixed $value
      * @return string
      */
-    public static function icon(int $value): string
+    public static function icon(mixed $value): string
     {
         $icons = [
             self::MALE => '<span class="gender-male">M</span>',
@@ -73,10 +73,10 @@ class Gender
     /**
      * Returns the gender symbol (♂ or ♀).
      *
-     * @param int $value
+     * @param mixed $value
      * @return string
      */
-    public static function symbol(int $value): string
+    public static function symbol(mixed $value): string
     {
         if ($value === self::MALE) {
             return '♂';
