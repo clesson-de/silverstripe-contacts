@@ -4,6 +4,18 @@ de:
     CREATED: 'Erstellt'
     LAST_EDITED: 'Zuletzt geändert'
 
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCity:
+    ALL_CITIES: 'Alle Städte'
+    LABEL: 'Stadt'
+
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressRegion:
+    ALL_REGIONS: 'Alle Bundesländer'
+    LABEL: 'Bundesland'
+
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCountry:
+    ALL_COUNTRIES: 'Alle Länder'
+    LABEL: 'Land'
+
   Clesson\Silverstripe\Contacts\Admins\ContactManager:
     MENUTITLE: 'Kontakte'
 

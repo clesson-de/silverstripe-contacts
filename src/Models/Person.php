@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Clesson\Silverstripe\Contacts\Models;
 
+use Clesson\Silverstripe\Autocomplete\Forms\AutocompleteField;
 use Clesson\Silverstripe\Contacts\Constants\Gender;
 use Clesson\Silverstripe\Contacts\Helpers\DateHelper;
 use Clesson\Silverstripe\Geocoding\Models\Address;
@@ -39,7 +40,6 @@ use SilverStripe\Forms\TextField;
  */
 class Person extends Contact
 {
-
     /**
      * @inheritdoc
      */
@@ -91,6 +91,7 @@ class Person extends Contact
         $labels['Age']           = _t(__CLASS__ . '.AGE', 'Age');
         $labels['FullName']      = _t(__CLASS__ . '.FULL_NAME', 'Full name');
         $labels['Address']       = _t(__CLASS__ . '.ADDRESS', 'Home address');
+
         return $labels;
     }
 
@@ -106,6 +107,7 @@ class Person extends Contact
         if (!$this->LastName) {
             $result->addError(_t(Form::class . '.FIELDISREQUIRED', '{name} is required', ['name' => $this->fieldLabel('LastName')]));
         }
+
         return $result;
     }
 
@@ -120,6 +122,7 @@ class Person extends Contact
         if (Employee::get()->filter('PersonID', (int) $this->ID)->exists()) {
             return false;
         }
+
         return parent::canDelete($member);
     }
 
@@ -131,7 +134,6 @@ class Person extends Contact
     public function getFullName(): string
     {
         return implode(' ', array_filter([
-            Gender::salutation($this->Gender),
             $this->PersonTitle,
             $this->FirstName,
             $this->SecondName,
@@ -159,6 +161,7 @@ class Person extends Contact
     {
         $card = new VCard();
         $card->addName($this->LastName, $this->FirstName, $this->SecondName, $this->PersonTitle, $this->Suffix);
+
         return $card;
     }
 
@@ -189,7 +192,6 @@ class Person extends Contact
     protected function createDefaultName(): string
     {
         return implode(' ', array_filter([
-            Gender::salutation($this->Gender),
             $this->PersonTitle,
             $this->FirstName,
             $this->SecondName,
@@ -238,12 +240,18 @@ class Person extends Contact
         $genderField = DropdownField::create('Gender', $this->fieldLabel('Gender'), Gender::options());
         $genderField->addExtraClass('gender');
 
-        /** @var TextField $titleField */
-        $titleField = TextField::create('PersonTitle', $this->fieldLabel('PersonTitle'));
+        /** @var AutocompleteField $titleField */
+        $titleField = AutocompleteField::create('PersonTitle', $this->fieldLabel('PersonTitle'))
+            ->setSourceModel(self::class, 'PersonTitle')
+            ->setLimit(10)
+            ->setMinChars(2);
         $titleField->addExtraClass('title');
 
-        /** @var TextField $suffixField */
-        $suffixField = TextField::create('Suffix', $this->fieldLabel('Suffix'));
+        /** @var AutocompleteField $suffixField */
+        $suffixField = AutocompleteField::create('Suffix', $this->fieldLabel('Suffix'))
+            ->setSourceModel(self::class, 'Suffix')
+            ->setLimit(10)
+            ->setMinChars(2);
         $suffixField->addExtraClass('suffix');
 
         /** @var FieldGroup $prefixField */
@@ -251,16 +259,22 @@ class Person extends Contact
         $prefixField->addExtraClass('prefix');
         $fields->add($prefixField);
 
-        /** @var TextField $firstNameField */
-        $firstNameField = TextField::create('FirstName', $this->fieldLabel('FirstName'));
+        /** @var AutocompleteField $firstNameField */
+        $firstNameField = AutocompleteField::create('FirstName', $this->fieldLabel('FirstName'))
+            ->setSourceModel(self::class, 'FirstName')
+            ->setLimit(10)
+            ->setMinChars(2);
         $firstNameField->addExtraClass('firstname raised');
 
         /** @var TextField $secondNameField */
         $secondNameField = TextField::create('SecondName', $this->fieldLabel('SecondName'));
         $secondNameField->addExtraClass('secondname');
 
-        /** @var TextField $lastNameField */
-        $lastNameField = TextField::create('LastName', $this->fieldLabel('LastName'));
+        /** @var AutocompleteField $lastNameField */
+        $lastNameField = AutocompleteField::create('LastName', $this->fieldLabel('LastName'))
+            ->setSourceModel(self::class, 'LastName')
+            ->setLimit(10)
+            ->setMinChars(2);
         $lastNameField->addExtraClass('lastname raised');
 
         /** @var FieldGroup $nameField */
@@ -308,6 +322,5 @@ class Person extends Contact
 
         return $fields;
     }
-
 }
 

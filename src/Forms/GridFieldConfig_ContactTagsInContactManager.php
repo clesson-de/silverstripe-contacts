@@ -10,7 +10,6 @@ use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
-use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\ORM\FieldType\DBField;
 
@@ -38,7 +37,6 @@ class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldButtonRow::create('before'));
         $this->addComponent(GridFieldAddNewButton::create('buttons-before-right'));
         $this->addComponent(GridFieldSortableHeader::create());
-        $this->addComponent(GridFieldFilterHeader::create());
         $this->addComponent($dataColumns = GridFieldDataColumns::create());
         $this->addComponent(GridFieldEditButton::create());
         $this->addComponent(GridFieldDeleteAction::create());

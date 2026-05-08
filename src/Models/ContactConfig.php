@@ -90,7 +90,7 @@ class ContactConfig extends DataObject
         /** @var GridField $contactsField */
         $contactsField = GridField::create(
             'ContactsGrid',
-            $this->fieldLabel('Contacts'),
+            '',
             Contact::get(),
             GridFieldConfig_ContactsInContactManager::create()
         );

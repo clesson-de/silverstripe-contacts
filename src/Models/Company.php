@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Clesson\Silverstripe\Contacts\Models;
 
+use Clesson\Silverstripe\Autocomplete\Forms\AutocompleteField;
 use JeroenDesloovere\VCard\VCard;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
-use SilverStripe\Forms\TextField;
 
 /**
  * Represents a company or organisation.
@@ -146,13 +146,19 @@ class Company extends Contact
     {
         $fields = FieldList::create();
 
-        /** @var TextField $name1Field */
-        $name1Field = TextField::create('Name1', $this->fieldLabel('Name1'));
+        /** @var AutocompleteField $name1Field */
+        $name1Field = AutocompleteField::create('Name1', $this->fieldLabel('Name1'))
+            ->setSourceModel(self::class, 'Name1')
+            ->setLimit(10)
+            ->setMinChars(2);
         $name1Field->addExtraClass('raised');
         $fields->add($name1Field);
 
-        /** @var TextField $name2Field */
-        $name2Field = TextField::create('Name2', $this->fieldLabel('Name2'));
+        /** @var AutocompleteField $name2Field */
+        $name2Field = AutocompleteField::create('Name2', $this->fieldLabel('Name2'))
+            ->setSourceModel(self::class, 'Name2')
+            ->setLimit(10)
+            ->setMinChars(2);
         $fields->add($name2Field);
 
         if ($this->exists()) {
@@ -166,4 +172,3 @@ class Company extends Contact
     }
 
 }
-

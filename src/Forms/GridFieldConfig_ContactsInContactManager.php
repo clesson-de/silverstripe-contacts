@@ -16,7 +16,6 @@ use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
-use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\GridField\GridFieldPageCount;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
@@ -48,7 +47,6 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldButtonRow::create('before'));
         $this->addComponent(GridFieldToolbarHeader::create());
         $this->addComponent(GridFieldSortableHeader::create());
-        $this->addComponent(GridFieldFilterHeader::create());
         $this->addComponent($dataColumns = GridFieldDataColumns::create());
         $this->addComponent(GridFieldEditButton::create());
         $this->addComponent(GridFieldDeleteAction::create());
@@ -83,16 +81,27 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent($addButton);
 
         $dataColumns->setDisplayFields([
+            'TypeIcon' => [
+                'title' => '',
+                'callback' => function ($record, $column, $grid) {
+                    $icon = match ($record->ClassName) {
+                        Company::class  => '<span class="font-icon-sitemap" title="' . _t(Company::class . '.SINGULARNAME', 'Company') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
+                        Employee::class => '<span class="font-icon-torso-business" title="' . _t(Employee::class . '.SINGULARNAME', 'Employee') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
+                        default         => '<span class="font-icon-torso" title="' . _t(Person::class . '.SINGULARNAME', 'Person') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
+                    };
+                    return DBField::create_field('HTMLFragment', $icon);
+                },
+            ],
             'Icon' => [
                 'title' => '',
                 'callback' => function ($record, $column, $grid) {
-                    return DBField::create_field('HTMLFragment', $record->Icon);
+                    return DBField::create_field('HTMLFragment', (string) $record->Icon);
                 },
             ],
             'Name' => [
                 'title' => _t(Contact::class . '.NAME', 'Name'),
                 'callback' => function ($record, $column, $grid) {
-                    $html = ['<strong>' . $record->Name . '</strong>'];
+                    $html = [$record->Name];
                     if ($address = $record->Address) {
                         $html[] = '<small>' . $address->Title . '</small>';
                     }

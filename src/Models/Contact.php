@@ -524,18 +524,27 @@ class Contact extends DataObject implements PermissionProvider
     }
 
     /**
-     * Returns an HTML icon for GridFields — avatar image or initials badge.
+     * Returns an HTML icon for GridFields — circular avatar image (40×40) or initials badge.
      *
      * @return DBField|string
      */
     public function getIcon(): DBField|string
     {
-        if ($this->AvatarID && $avatar = $this->Avatar()) {
-            return DBField::create_field('HTMLText', '<img class="contact-icon" src="' . $avatar->AbsoluteLink() . '">');
+        if ($this->AvatarID && ($avatar = $this->Avatar()) && $avatar->exists()) {
+            $thumbnail = $avatar->Fill(40, 40);
+            $src = $thumbnail ? $thumbnail->AbsoluteLink() : $avatar->AbsoluteLink();
+
+            return DBField::create_field(
+                'HTMLText',
+                '<img class="contact-icon" src="' . $src . '" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">'
+            );
         }
 
         if ($initials = $this->Initials) {
-            return DBField::create_field('HTMLText', '<div class="contact-icon">' . $initials . '</div>');
+            return DBField::create_field(
+                'HTMLText',
+                '<div class="contact-icon" style="width:40px;height:40px;border-radius:50%;background:#6c757d;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;">' . $initials . '</div>'
+            );
         }
 
         return '';
