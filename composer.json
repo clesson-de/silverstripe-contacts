@@ -26,7 +26,7 @@
         "lekoala/silverstripe-cms-actions": "^2",
         "symbiote/silverstripe-gridfieldextensions": "^5",
         "clesson-de/silverstripe-gridfield-pro": "^2",
-        "clesson-de/silverstripe-autocomplete": "dev-dev"
+        "clesson-de/silverstripe-autocomplete": "^1"
     },
     "autoload": {
         "psr-4": {
