@@ -76,8 +76,6 @@ The CMS uses `GridFieldAddNewMultiClass` to offer `Company`, `Person`, and `Empl
 | `Slug` | `Varchar(100)` | URL-safe unique slug |
 | `Initials` | `Varchar(10)` | Computed initials |
 | `Note` | `Text` | Free-text note |
-| `CustomerNumber` | `Varchar(50)` | Auto-generated customer number |
-| `CustomerSince` | `Date` | Date when customer number was assigned |
 
 ### Relations (on `Contact`)
 

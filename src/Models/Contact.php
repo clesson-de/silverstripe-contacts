@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Models;
 
 use Clesson\Silverstripe\Contacts\Admins\ContactManager;
-use Clesson\Silverstripe\Contacts\Helpers\CustomerNumberHelper;
 use JeroenDesloovere\VCard\VCard;
 use LeKoala\CmsActions\CmsInlineFormAction;
 use SilverStripe\Admin\CMSEditLinkExtension;
@@ -45,8 +44,6 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
  * @property string $Slug
  * @property string $Initials
  * @property string $Note
- * @property string $CustomerNumber
- * @property string $CustomerSince
  * @property int $AccountID
  * @property int $AvatarID
  * @property int $AddressID
@@ -63,11 +60,6 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
 class Contact extends DataObject implements PermissionProvider
 {
 
-    /**
-     * Ukey of the ContactTag that marks a contact as a customer.
-     * Must match the normalised Ukey stored in Contacts_ContactTag.Ukey.
-     */
-    public const CUSTOMER_TAG_UKEY = 'CUSTOMER';
 
     /**
      * @inheritdoc
@@ -105,8 +97,6 @@ class Contact extends DataObject implements PermissionProvider
      * @inheritdoc
      */
     private static $db = [
-        'CustomerNumber' => 'Varchar(50)',
-        'CustomerSince'  => 'Date',
         'SortingName'    => 'Varchar(150)',
         'Name'           => 'Varchar(150)',
         'Slug'           => 'Varchar(150)',
@@ -284,43 +274,6 @@ class Contact extends DataObject implements PermissionProvider
         $this->updateSlug();
     }
 
-    /**
-     * Flag to prevent recursive writes when auto-generating the customer number.
-     */
-    private bool $generatingCustomerNumber = false;
-
-    /**
-     * After the record and its relations are persisted, auto-generate a unique
-     * customer number if the contact belongs to the CUSTOMER group and does not
-     * yet have a customer number.
-     *
-     * @inheritdoc
-     */
-    protected function onAfterWrite(): void
-    {
-        parent::onAfterWrite();
-
-        if (!$this->generatingCustomerNumber && $this->isCustomer() && !$this->CustomerNumber) {
-            $this->generatingCustomerNumber = true;
-            $this->CustomerNumber = CustomerNumberHelper::generateUnique(
-                CustomerNumberHelper::DEFAULT_TEMPLATE,
-                (int) $this->ID
-            );
-            $this->CustomerSince = date('Y-m-d');
-            $this->write();
-            $this->generatingCustomerNumber = false;
-        }
-    }
-
-    /**
-     * Returns true when this contact is tagged with the CUSTOMER group.
-     *
-     * @return bool
-     */
-    public function isCustomer(): bool
-    {
-        return $this->Tags()->filter('Ukey', self::CUSTOMER_TAG_UKEY)->count() > 0;
-    }
 
     /**
      * Creates a unique URL slug for this contact.
@@ -367,8 +320,6 @@ class Contact extends DataObject implements PermissionProvider
         $labels['Tags']           = _t(__CLASS__ . '.TAGS', 'Tags');
         $labels['Account']        = _t(__CLASS__ . '.ACCOUNT', 'CMS Account');
         $labels['vCardLink']      = _t(__CLASS__ . '.DOWNLOAD_VCARD', 'Download vCard');
-        $labels['CustomerNumber'] = _t(__CLASS__ . '.CUSTOMER_NUMBER', 'Customer number');
-        $labels['CustomerSince']  = _t(__CLASS__ . '.CUSTOMER_SINCE', 'Customer since');
         $labels['ID']             = _t('Clesson\Silverstripe\Contacts\Common.ID', 'ID');
         $labels['Created']        = _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created');
         $labels['LastEdited']     = _t('Clesson\Silverstripe\Contacts\Common.LAST_EDITED', 'Last edited');

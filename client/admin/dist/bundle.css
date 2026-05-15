@@ -1,28 +1,5 @@
 /* .contact-form -> ModelAdmin */
 /* .contact-form -> Contact DetailView */
-
-/* Force full width for the detail form and all its parent containers */
-.contact-form,
-.contact-form > *,
-form.contact-form,
-.panel.panel--padded:has(.contact-form),
-.cms-content-fields:has(.contact-form),
-.form--no-dividers:has(.contact-form),
-.grid-field__detail-view:has(.contact-form),
-.gridfield-better-buttons-prevnext-button-wrapper:has(.contact-form) {
-  max-width: none !important;
-  width: 100% !important;
-}
-
-/* Override Bootstrap grid gutter within contact-form */
-.contact-form .form-group {
-  --bs-gutter-x: 0 !important;
-  margin-right: 0 !important;
-  margin-left: 0 !important;
-  max-width: none !important;
-  width: 100% !important;
-}
-
 .contact-manager--contact .contact-icon {
   width: 40px;
   height: 40px;
@@ -38,8 +15,6 @@ form.contact-form,
 
 .contact-form .contact-holder {
   display: block;
-  max-width: none !important;
-  width: 100% !important;
 }
 .contact-form .contact-holder > .form__fieldgroup {
   display: flex;
@@ -47,7 +22,6 @@ form.contact-form,
   margin-right: 0;
   width: 100%;
   padding: 0;
-  max-width: none !important;
 }
 .contact-form .contact-holder > .form__fieldgroup .contact-marginal {
   border-right: 1px solid #ced5e1;
@@ -82,7 +56,6 @@ form.contact-form,
 .contact-form .contact-holder > .form__fieldgroup .contact-main > .form__fieldgroup.form__field-holder {
   margin: 1.5385rem;
   padding-right: 1.5rem;
-  max-width: 100%;
 }
 .contact-form .contact-holder > .form__fieldgroup .contact-main table.grid-field__table {
   margin: 1.5385rem 0;
@@ -218,4 +191,3 @@ form.contact-form,
 .address-form .form__fieldgroup.telephone-fax .field.fax {
   flex: 1;
 }
-

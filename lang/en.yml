@@ -45,8 +45,6 @@ en:
     DOWNLOAD_CONTACTS_HELP: 'Allows downloading contact records as vCards'
     ACCOUNT: 'System user'
     DOWNLOAD_VCARD: 'Download vCard'
-    CUSTOMER_NUMBER: 'Customer number'
-    CUSTOMER_SINCE: 'Customer since'
 
   SilverStripe\Security\Member:
     Contact: 'Linked contact'

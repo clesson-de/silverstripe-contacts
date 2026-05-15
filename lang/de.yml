@@ -46,8 +46,6 @@ de:
     DOWNLOAD_CONTACTS_HELP: 'Erlaubt das Herunterladen von Kontaktdatensätzen als vCards'
     ACCOUNT: 'Systembenutzer'
     DOWNLOAD_VCARD: 'Visitenkarte'
-    CUSTOMER_NUMBER: 'Kundennummer'
-    CUSTOMER_SINCE: 'Kunde seit'
 
   SilverStripe\Security\Member:
     Contact: 'Verknüpfter Kontakt'

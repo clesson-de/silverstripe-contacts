@@ -26,7 +26,8 @@
                 const regionField = form.find('select[name="Region"]');
 
                 if (!regionField.length) {
-                    console.warn('Region field not found in form');
+                    // Region is rendered as a free-text AutocompleteField for countries
+                    // without structured subdivision data — nothing to update via AJAX.
                     return;
                 }
 

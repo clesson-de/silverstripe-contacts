@@ -108,12 +108,6 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
                     return DBField::create_field('HTMLFragment', implode('<br>', $html));
                 },
             ],
-            'CustomerNumber' => [
-                'title' => _t(Contact::class . '.CUSTOMER_NUMBER', 'Customer number'),
-                'callback' => function ($record, $column, $grid) {
-                    return DBField::create_field('Varchar', $record->CustomerNumber);
-                },
-            ],
             'Created' => [
                 'title' => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
                 'callback' => function ($record, $column, $grid) {
