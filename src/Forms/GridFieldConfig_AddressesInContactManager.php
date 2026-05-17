@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Clesson\Silverstripe\Contacts\Forms;
 
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCity;
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCountry;
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressRegion;
+use Clesson\Silverstripe\Geocoding\Helpers\MapThumbnailHelper;
 use Clesson\Silverstripe\Geocoding\Models\Address;
+use Clesson\Silverstripe\Geocoding\ORM\DBGeoCoordinate;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\Forms\GridField\GridFieldConfig;
@@ -29,7 +33,7 @@ class GridFieldConfig_AddressesInContactManager extends GridFieldConfig
      * Initialises the GridField configuration with all required components
      * and configures the display columns for Address records.
      *
-     * @param int|null $itemsPerPage
+     * @param int|null  $itemsPerPage
      * @param bool|null $showPagination
      * @param bool|null $showAdd
      */
@@ -47,47 +51,102 @@ class GridFieldConfig_AddressesInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldEditButton::create());
         $this->addComponent(GridFieldDeleteAction::create());
 
-        $dataColumns->setDisplayFields([
-            'Name' => [
-                'title' => _t(Address::class . '.NAME', 'Label'),
+        $dataColumns->setDisplayFields($this->buildDisplayFields());
+
+        $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
+        $this->extend('updateConfig');
+    }
+
+    /**
+     * Builds the display field definitions for the Address GridField.
+     *
+     * The map thumbnail column is prepended as the first column so that
+     * the geocoded position is immediately visible at a glance.
+     *
+     * @return array<string, mixed>
+     */
+    private function buildDisplayFields(): array
+    {
+        $thumbnailWidth  = 120;
+        $thumbnailHeight = 80;
+        $thumbnailZoom   = 14;
+        $thumbnailLayer  = 'osm';
+
+        $buildThumbnail = static function ($record) use (
+            $thumbnailWidth,
+            $thumbnailHeight,
+            $thumbnailZoom,
+            $thumbnailLayer
+        ): string {
+            /** @var DBGeoCoordinate $coord */
+            $coord    = $record->dbObject('GeoCoordinates');
+            $thumbHtml = '';
+
+            if ($coord && $coord->exists()) {
+                $url      = MapThumbnailHelper::urlFromCoordinate($coord, $thumbnailZoom, $thumbnailWidth, $thumbnailHeight, $thumbnailLayer);
+                $safeUrl  = htmlspecialchars($url, ENT_QUOTES);
+                $thumbHtml = '<img src="' . $safeUrl . '" width="' . $thumbnailWidth . '" height="' . $thumbnailHeight
+                    . '" alt="" style="display:block;border-radius:3px;" loading="lazy" />';
+            }
+
+            $summary = htmlspecialchars((string) $record->getTitle(), ENT_QUOTES, 'UTF-8');
+
+            return '<style>'
+                . '.geocoding-addr-thumb{display:block}'
+                . '.geocoding-addr-summary{display:none}'
+                . '@media(max-width:767px){'
+                . '.geocoding-addr-thumb{display:none}'
+                . '.geocoding-addr-summary{display:block}'
+                . '}'
+                . '</style>'
+                . '<span class="geocoding-addr-thumb">' . $thumbHtml . '</span>'
+                . '<span class="geocoding-addr-summary">' . $summary . '</span>';
+        };
+
+        return [
+            'GeoCoordinates' => [
+                'title'    => '',
+                'callback' => static function ($record) use ($buildThumbnail): DBField {
+                    return DBField::create_field('HTMLText', $buildThumbnail($record));
+                },
+            ],
+            'Name'           => [
+                'title'    => _t(Address::class . '.NAME', 'Label'),
                 'callback' => static function ($record): DBField {
                     return DBField::create_field('Varchar', $record->Name);
                 },
             ],
-            'AddressLine1' => [
-                'title' => _t(Address::class . '.ADDRESS_LINE_1', 'Address line 1'),
+            'AddressLine1'   => [
+                'title'    => _t(Address::class . '.ADDRESS_LINE_1', 'Address line 1'),
                 'callback' => static function ($record): DBField {
                     return DBField::create_field('Varchar', $record->AddressLine1);
                 },
             ],
-            'City' => [
-                'title' => _t(Address::class . '.CITY', 'City'),
+            'City'           => [
+                'title'    => _t(Address::class . '.CITY', 'City'),
                 'callback' => static function ($record): DBField {
                     return DBField::create_field('Varchar', $record->City);
                 },
             ],
-            'Region' => [
-                'title' => _t(Address::class . '.REGION', 'Region'),
+            'Region'         => [
+                'title'    => _t(Address::class . '.REGION', 'Region'),
                 'callback' => static function ($record): DBField {
                     return DBField::create_field('Varchar', $record->Region);
                 },
             ],
-            'CountryCode' => [
-                'title' => _t(Address::class . '.COUNTRY_CODE', 'Country'),
+            'CountryCode'    => [
+                'title'    => _t(Address::class . '.COUNTRY_CODE', 'Country'),
                 'callback' => static function ($record): DBField {
                     return DBField::create_field('Varchar', $record->getCountry() ?? $record->CountryCode);
                 },
             ],
-            'Created' => [
-                'title' => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
-                'callback' => function ($record, $column, $grid) {
+            'Created'        => [
+                'title'    => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
+                'callback' => static function ($record): DBField {
                     return DBField::create_field('DBDatetime', $record->Created);
                 },
             ],
-        ]);
-
-        $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
-        $this->extend('updateConfig');
+        ];
     }
 
 }
