@@ -81,31 +81,35 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent($addButton);
 
         $dataColumns->setDisplayFields([
-            'TypeIcon' => [
-                'title' => '',
-                'callback' => function ($record, $column, $grid) {
-                    $icon = match ($record->ClassName) {
-                        Company::class  => '<span class="font-icon-sitemap" title="' . _t(Company::class . '.SINGULARNAME', 'Company') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
-                        Employee::class => '<span class="font-icon-torso-business" title="' . _t(Employee::class . '.SINGULARNAME', 'Employee') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
-                        default         => '<span class="font-icon-torso" title="' . _t(Person::class . '.SINGULARNAME', 'Person') . '" style="font-size:1.5em;color:#6c757d;display:flex;align-items:center;"></span>',
-                    };
-                    return DBField::create_field('HTMLFragment', $icon);
-                },
-            ],
-            'Icon' => [
-                'title' => '',
-                'callback' => function ($record, $column, $grid) {
-                    return DBField::create_field('HTMLFragment', (string) $record->Icon);
-                },
-            ],
             'Name' => [
                 'title' => _t(Contact::class . '.NAME', 'Name'),
                 'callback' => function ($record, $column, $grid) {
-                    $html = [$record->Name];
+                    $typeIconClass = match ($record->ClassName) {
+                        Company::class  => 'font-icon-sitemap',
+                        Employee::class => 'font-icon-torso-business',
+                        default         => 'font-icon-torso',
+                    };
+                    $typeIconTitle = match ($record->ClassName) {
+                        Company::class  => _t(Company::class . '.SINGULARNAME', 'Company'),
+                        Employee::class => _t(Employee::class . '.SINGULARNAME', 'Employee'),
+                        default         => _t(Person::class . '.SINGULARNAME', 'Person'),
+                    };
+                    $colStyle   = 'display:inline-flex;align-items:center;gap:5px;';
+                    $iconStyle  = 'display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;';
+                    $contactIcon = trim((string) $record->Icon);
+
+                    $typeIconHtml    = '<span class="' . $typeIconClass . '" title="' . htmlspecialchars($typeIconTitle, ENT_QUOTES, 'UTF-8') . '" style="' . $iconStyle . 'font-size:1.1em;color:#6c757d;"></span>';
+                    $contactIconHtml = $contactIcon !== ''
+                        ? '<span style="' . $iconStyle . '">' . $contactIcon . '</span>'
+                        : '<span style="' . $iconStyle . '"></span>';
+
+                    $nameText = '<span>' . htmlspecialchars((string) $record->Name, ENT_QUOTES, 'UTF-8');
                     if ($address = $record->Address) {
-                        $html[] = '<small>' . $address->Title . '</small>';
+                        $nameText .= '<br><small style="color:#6c757d">' . htmlspecialchars((string) $address->Title, ENT_QUOTES, 'UTF-8') . '</small>';
                     }
-                    return DBField::create_field('HTMLFragment', implode('<br>', $html));
+                    $nameText .= '</span>';
+
+                    return DBField::create_field('HTMLFragment', '<span style="' . $colStyle . '">' . $typeIconHtml . $contactIconHtml . $nameText . '</span>');
                 },
             ],
             'Created' => [
