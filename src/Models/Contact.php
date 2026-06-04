@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Models;
 
 use Clesson\Silverstripe\Contacts\Admins\ContactManager;
+use Clesson\Silverstripe\Contacts\Services\GravatarService;
 use JeroenDesloovere\VCard\VCard;
 use LeKoala\CmsActions\CmsInlineFormAction;
 use SilverStripe\Admin\CMSEditLinkExtension;
@@ -262,6 +263,11 @@ class Contact extends DataObject implements PermissionProvider
     // -------------------------------------------------------------------------
 
     /**
+     * Guard flag to prevent infinite loops when writing the Contact inside onAfterWrite().
+     */
+    private bool $isFetchingGravatar = false;
+
+    /**
      * @inheritdoc
      */
     public function onBeforeWrite(): void
@@ -274,6 +280,42 @@ class Contact extends DataObject implements PermissionProvider
         $this->updateSlug();
     }
 
+    /**
+     * After a successful write, attempts to fetch a Gravatar image for this contact
+     * when no avatar is set yet and the contact has a linked Member account with an email.
+     *
+     * External API calls must not be placed in onBeforeWrite() — they belong here.
+     *
+     * @inheritdoc
+     */
+    public function onAfterWrite(): void
+    {
+        parent::onAfterWrite();
+
+        $this->fetchGravatarIfMissing();
+    }
+
+    /**
+     * Fetches a Gravatar image and persists it as the Avatar relation when no avatar
+     * is currently set. Uses a boolean flag to avoid infinite recursion.
+     *
+     * @return void
+     */
+    private function fetchGravatarIfMissing(): void
+    {
+        if ($this->isFetchingGravatar || $this->AvatarID) {
+            return;
+        }
+
+        $service = GravatarService::create();
+        $this->isFetchingGravatar = true;
+
+        if ($service->fetchAndStoreAvatar($this)) {
+            $this->write();
+        }
+
+        $this->isFetchingGravatar = false;
+    }
 
     /**
      * Creates a unique URL slug for this contact.
@@ -421,7 +463,7 @@ class Contact extends DataObject implements PermissionProvider
             /** @var UploadField $avatarField */
             $avatarField = UploadField::create('Avatar', $this->fieldLabel('Avatar'));
             $avatarField->setTitle('');
-            $avatarField->setFolderName('avatar');
+            $avatarField->setFolderName('Contacts/Avatars');
             $fields->add($avatarField);
 
             /** @var CmsInlineFormAction $vCardField */

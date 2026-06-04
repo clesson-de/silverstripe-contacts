@@ -104,3 +104,5 @@ de:
     COMPANY: 'Unternehmen'
     ADDRESS: 'Arbeitsadresse'
 
+  Clesson\Silverstripe\Contacts\Extensions\ContactableMember:
+    CONTACT: 'Verknüpfter Kontakt'

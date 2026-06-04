@@ -7,6 +7,7 @@ namespace Clesson\Silverstripe\Contacts\Models;
 use Clesson\Silverstripe\Autocomplete\Forms\AutocompleteField;
 use Clesson\Silverstripe\Contacts\Constants\Gender;
 use Clesson\Silverstripe\Contacts\Helpers\DateHelper;
+use Clesson\Silverstripe\Geocoding\Forms\AddressField;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use JeroenDesloovere\VCard\VCard;
 use SilverStripe\Core\Validation\ValidationResult;
@@ -174,16 +175,7 @@ class Person extends Contact
     {
         $name = (string) $this->Name;
 
-        if (!$this->Birthday) {
-            return $name;
-        }
-
-        $suffix = ' *' . date('Y', strtotime($this->Birthday));
-        if ($this->DayOfDeath) {
-            $suffix .= '; †' . date('Y', strtotime($this->DayOfDeath));
-        }
-
-        return $name . $suffix;
+        return $name;
     }
 
     /**
@@ -293,9 +285,8 @@ class Person extends Contact
         $fields->add($datesField);
 
         if ($this->exists()) {
-            /** @var DropdownField $addressField */
-            $addressField = DropdownField::create('AddressID', $this->fieldLabel('Address'), Address::get()->map('ID', 'Title'));
-            $addressField->setEmptyString('');
+            /** @var AddressField $addressField */
+            $addressField = AddressField::create('AddressID', $this->fieldLabel('Address'));
             $fields->add($addressField);
         }
 

@@ -103,3 +103,5 @@ en:
     COMPANY: 'Company'
     ADDRESS: 'Work address'
 
+  Clesson\Silverstripe\Contacts\Extensions\ContactableMember:
+    CONTACT: 'Linked contact'

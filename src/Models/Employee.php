@@ -8,6 +8,7 @@ use JeroenDesloovere\VCard\VCard;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\SearchableDropdownField;
 
 /**
  * Represents the employment relationship between a Person and a Company.
@@ -114,13 +115,13 @@ class Employee extends Contact
     {
         $fields = FieldList::create();
 
-        /** @var DropdownField $personField */
-        $personField = DropdownField::create('PersonID', $this->fieldLabel('Person'), Person::get()->map('ID', 'Name'));
+        /** @var SearchableDropdownField $personField */
+        $personField = SearchableDropdownField::create('PersonID', $this->fieldLabel('Person'), Person::get()->Sort('Name ASC'));
         $personField->setEmptyString('');
         $fields->add($personField);
 
-        /** @var DropdownField $companyField */
-        $companyField = DropdownField::create('CompanyID', $this->fieldLabel('Company'), Company::get()->map('ID', 'Name'));
+        /** @var SearchableDropdownField $companyField */
+        $companyField = SearchableDropdownField::create('CompanyID', $this->fieldLabel('Company'), Company::get()->Sort('Name ASC'));
         $companyField->setEmptyString('');
         $fields->add($companyField);
 
