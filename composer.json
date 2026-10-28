@@ -23,7 +23,7 @@
         "clesson-de/silverstripe-payment-accounts": "^1",
         "jeroendesloovere/vcard": "^1.7",
         "giggsey/libphonenumber-for-php": "^8.13",
-        "phpoffice/phpspreadsheet": "^4",
+        "phpoffice/phpspreadsheet": "^5.10",
         "tecnickcom/tcpdf": "^6",
         "lekoala/silverstripe-cms-actions": "^2",
         "symbiote/silverstripe-gridfieldextensions": "^5",
