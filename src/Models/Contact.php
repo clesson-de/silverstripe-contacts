@@ -8,6 +8,9 @@ use Clesson\Silverstripe\Contacts\Admins\ContactManager;
 use Clesson\Silverstripe\Contacts\Services\GravatarService;
 use JeroenDesloovere\VCard\VCard;
 use LeKoala\CmsActions\CmsInlineFormAction;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use SilverStripe\Admin\CMSEditLinkExtension;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
@@ -45,6 +48,9 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
  * @property string $Slug
  * @property string $Initials
  * @property string $Note
+ * @property string $Phone
+ * @property string $Mobile
+ * @property string $Fax
  * @property int $AccountID
  * @property int $AvatarID
  * @property int $AddressID
@@ -103,6 +109,9 @@ class Contact extends DataObject implements PermissionProvider
         'Slug'           => 'Varchar(150)',
         'Initials'       => 'Varchar(5)',
         'Note'           => 'Text',
+        'Phone'          => 'Varchar(30)',
+        'Mobile'         => 'Varchar(30)',
+        'Fax'            => 'Varchar(30)',
     ];
 
     /**
@@ -278,6 +287,7 @@ class Contact extends DataObject implements PermissionProvider
         $this->updateSortingName();
         $this->updateInitials();
         $this->updateSlug();
+        $this->formatPhoneNumbers();
     }
 
     /**
@@ -338,6 +348,68 @@ class Contact extends DataObject implements PermissionProvider
         $this->Slug = $slug;
     }
 
+    /**
+     * Normalises Phone, Mobile and Fax to international format using libphonenumber.
+     * The country code is taken from the linked Address. If no address or country
+     * is set, the numbers are left unchanged.
+     *
+     * @return void
+     */
+    private function formatPhoneNumbers(): void
+    {
+        $countryCode = $this->resolvePhoneCountryCode();
+
+        if ($countryCode === '') {
+            return;
+        }
+
+        foreach (['Phone', 'Mobile', 'Fax'] as $field) {
+            $value = trim((string) $this->$field);
+            if ($value !== '') {
+                $this->$field = $this->formatPhoneNumber($value, $countryCode);
+            }
+        }
+    }
+
+    /**
+     * Returns the ISO 3166-1 alpha-2 country code from the linked Address,
+     * or an empty string when no address or country code is available.
+     *
+     * @return string
+     */
+    private function resolvePhoneCountryCode(): string
+    {
+        if (!$this->AddressID) {
+            return '';
+        }
+
+        $address = $this->Address();
+
+        return ($address && $address->exists())
+            ? strtoupper(trim((string) $address->CountryCode))
+            : '';
+    }
+
+    /**
+     * Parses a single phone number string with libphonenumber and returns it
+     * in international format (e.g. "+49 89 12345678"). Returns the original
+     * string unchanged when parsing fails.
+     *
+     * @param string $number
+     * @param string $countryCode ISO 3166-1 alpha-2, e.g. "DE"
+     * @return string
+     */
+    private function formatPhoneNumber(string $number, string $countryCode): string
+    {
+        try {
+            $util   = PhoneNumberUtil::getInstance();
+            $parsed = $util->parse($number, $countryCode);
+            return $util->format($parsed, PhoneNumberFormat::INTERNATIONAL);
+        } catch (NumberParseException) {
+            return $number;
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Validation & labels
     // -------------------------------------------------------------------------
@@ -362,6 +434,9 @@ class Contact extends DataObject implements PermissionProvider
         $labels['Tags']           = _t(__CLASS__ . '.TAGS', 'Tags');
         $labels['Account']        = _t(__CLASS__ . '.ACCOUNT', 'CMS Account');
         $labels['vCardLink']      = _t(__CLASS__ . '.DOWNLOAD_VCARD', 'Download vCard');
+        $labels['Phone']          = _t(__CLASS__ . '.PHONE', 'Phone');
+        $labels['Mobile']         = _t(__CLASS__ . '.MOBILE', 'Mobile');
+        $labels['Fax']            = _t(__CLASS__ . '.FAX', 'Fax');
         $labels['ID']             = _t('Clesson\Silverstripe\Contacts\Common.ID', 'ID');
         $labels['Created']        = _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created');
         $labels['LastEdited']     = _t('Clesson\Silverstripe\Contacts\Common.LAST_EDITED', 'Last edited');
@@ -411,9 +486,42 @@ class Contact extends DataObject implements PermissionProvider
             $contactTab->FieldList()->add($field);
         }
 
+        $contactDetailsTab = new Tab('ContactDetails', _t(__CLASS__ . '.CONTACT_DETAILS', 'Contact details'));
+        foreach ($this->getContactDetailsCMSFields()->toArray() as $field) {
+            $contactDetailsTab->FieldList()->add($field);
+        }
+        $tabSet->push($contactDetailsTab);
+
         $this->extend('updateMainTabSet', $tabSet);
 
         return $tabSet;
+    }
+
+    /**
+     * Returns the CMS fields for the contact details tab (Phone, Mobile, Fax).
+     * Subclasses may extend via the updateContactDetailsCMSFields hook.
+     *
+     * @return FieldList
+     */
+    protected function getContactDetailsCMSFields(): FieldList
+    {
+        $fields = FieldList::create();
+
+        /** @var TextField $phoneField */
+        $phoneField = TextField::create('Phone', $this->fieldLabel('Phone'));
+        $fields->add($phoneField);
+
+        /** @var TextField $mobileField */
+        $mobileField = TextField::create('Mobile', $this->fieldLabel('Mobile'));
+        $fields->add($mobileField);
+
+        /** @var TextField $faxField */
+        $faxField = TextField::create('Fax', $this->fieldLabel('Fax'));
+        $fields->add($faxField);
+
+        $this->extend('updateContactDetailsCMSFields', $fields);
+
+        return $fields;
     }
 
     /**

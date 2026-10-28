@@ -2,6 +2,9 @@
 
 namespace Clesson\Silverstripe\Contacts\Forms;
 
+use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_BirthdayExport;
+use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_BirthdayPdfExport;
+use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_PhoneListExport;
 use Clesson\Silverstripe\Contacts\Models\Company;
 use Clesson\Silverstripe\Contacts\Models\Contact;
 use Clesson\Silverstripe\Contacts\Models\ContactTag;
@@ -54,6 +57,9 @@ class GridFieldConfig_ContactsInContactManager extends GridFieldConfig
         $this->addComponent(GridFieldPageCount::create('toolbar-header-right'));
         $this->addComponent(GridFieldPaginator::create($itemsPerPage));
         $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
+        $this->addComponent(GridFieldAction_PhoneListExport::create());
+        $this->addComponent(GridFieldAction_BirthdayExport::create());
+        $this->addComponent(GridFieldAction_BirthdayPdfExport::create());
         $this->addComponent(new GridField_CharFilter('before', 'SortingName', 'A-Z|0-9'));
 
         /** @var GridField_ButtonFilter $classFilter */

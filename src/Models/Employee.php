@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Models;
 
 use JeroenDesloovere\VCard\VCard;
+use Clesson\Silverstripe\Geocoding\Forms\AddressField;
 use Clesson\Silverstripe\Geocoding\Models\Address;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\SearchableDropdownField;
 
@@ -126,9 +126,8 @@ class Employee extends Contact
         $fields->add($companyField);
 
         if ($this->exists()) {
-            /** @var DropdownField $addressField */
-            $addressField = DropdownField::create('AddressID', $this->fieldLabel('Address'), Address::get()->map('ID', 'Title'));
-            $addressField->setEmptyString('');
+            /** @var AddressField $addressField */
+            $addressField = AddressField::create('AddressID', $this->fieldLabel('Address'));
             $fields->add($addressField);
         }
 
@@ -136,4 +135,3 @@ class Employee extends Contact
     }
 
 }
-

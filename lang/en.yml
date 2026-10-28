@@ -4,6 +4,34 @@ en:
     CREATED: 'Created'
     LAST_EDITED: 'Last edited'
 
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_BirthdayPdfExport:
+    BUTTON_LABEL: 'Birthdays (PDF)'
+    PDF_TITLE: 'Birthday Calendar'
+    MONTH_01: 'January'
+    MONTH_02: 'February'
+    MONTH_03: 'March'
+    MONTH_04: 'April'
+    MONTH_05: 'May'
+    MONTH_06: 'June'
+    MONTH_07: 'July'
+    MONTH_08: 'August'
+    MONTH_09: 'September'
+    MONTH_10: 'October'
+    MONTH_11: 'November'
+    MONTH_12: 'December'
+
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_BirthdayExport:
+    BUTTON_LABEL: 'Birthdays (Excel)'
+    COL_NAME: 'Name'
+    COL_BIRTHDAY: 'Birthday'
+
+  Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldAction_PhoneListExport:
+    BUTTON_LABEL: 'Phone list (Excel)'
+    COL_NAME: 'Name'
+    COL_PHONE: 'Phone'
+    COL_MOBILE: 'Mobile'
+    COL_FAX: 'Fax'
+
   Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCity:
     ALL_CITIES: 'All cities'
     LABEL: 'City'
@@ -45,6 +73,10 @@ en:
     DOWNLOAD_CONTACTS_HELP: 'Allows downloading contact records as vCards'
     ACCOUNT: 'System user'
     DOWNLOAD_VCARD: 'Download vCard'
+    PHONE: 'Phone'
+    MOBILE: 'Mobile'
+    FAX: 'Fax'
+    CONTACT_DETAILS: 'Contact details'
 
   SilverStripe\Security\Member:
     Contact: 'Linked contact'
@@ -77,6 +109,7 @@ en:
     NAME1: 'Company name'
     NAME2: 'Company name suffix'
     ADDRESS: 'Business address'
+    EMPLOYEES: 'Employees'
 
   Clesson\Silverstripe\Contacts\Models\Person:
     SINGULARNAME: 'Person'

@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Models;
 
 use Clesson\Silverstripe\Autocomplete\Forms\AutocompleteField;
+use Clesson\Silverstripe\Contacts\Forms\GridFieldConfig_EmployeesInCompany;
 use JeroenDesloovere\VCard\VCard;
+use Clesson\Silverstripe\Geocoding\Forms\AddressField;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use SilverStripe\Core\Validation\ValidationResult;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\Tab;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * Represents a company or organisation.
@@ -19,6 +24,7 @@ use SilverStripe\Forms\Form;
  * @property string $Name2
  * @property int $AddressID
  * @method Address Address()
+ * @method HasManyList|Employee[] Employees()
  *
  * @package Clesson\Silverstripe\Contacts
  * @subpackage Models
@@ -42,12 +48,20 @@ class Company extends Contact
     /**
      * @inheritdoc
      */
+    private static array $has_many = [
+        'Employees' => Employee::class . '.Company',
+    ];
+
+    /**
+     * @inheritdoc
+     */
     public function fieldLabels($includerelations = true): array
     {
         $labels = parent::fieldLabels($includerelations);
-        $labels['Name1']   = _t(__CLASS__ . '.NAME1', 'Company name');
-        $labels['Name2']   = _t(__CLASS__ . '.NAME2', 'Company name suffix');
-        $labels['Address'] = _t(__CLASS__ . '.ADDRESS', 'Business address');
+        $labels['Name1']     = _t(__CLASS__ . '.NAME1', 'Company name');
+        $labels['Name2']     = _t(__CLASS__ . '.NAME2', 'Company name suffix');
+        $labels['Address']   = _t(__CLASS__ . '.ADDRESS', 'Business address');
+        $labels['Employees'] = _t(__CLASS__ . '.EMPLOYEES', 'Employees');
         return $labels;
     }
 
@@ -162,13 +176,38 @@ class Company extends Contact
         $fields->add($name2Field);
 
         if ($this->exists()) {
-            /** @var DropdownField $addressField */
-            $addressField = DropdownField::create('AddressID', $this->fieldLabel('Address'), Address::get()->map('ID', 'Title'));
-            $addressField->setEmptyString('');
+            /** @var AddressField $addressField */
+            $addressField = AddressField::create('AddressID', $this->fieldLabel('Address'));
             $fields->add($addressField);
         }
 
         return $fields;
+    }
+
+    /**
+     * Extends the main tab set with an Employees tab for saved records.
+     *
+     * @return TabSet
+     */
+    protected function getMainTabSet(): TabSet
+    {
+        $tabSet = parent::getMainTabSet();
+
+        if ($this->exists()) {
+            /** @var GridField $employeesField */
+            $employeesField = GridField::create(
+                'Employees',
+                $this->fieldLabel('Employees'),
+                $this->Employees(),
+                GridFieldConfig_EmployeesInCompany::create()
+            );
+
+            $employeesTab = new Tab('Employees', _t(__CLASS__ . '.EMPLOYEES', 'Employees'));
+            $employeesTab->FieldList()->add($employeesField);
+            $tabSet->insertAfter('ContactDetails', $employeesTab);
+        }
+
+        return $tabSet;
     }
 
 }
