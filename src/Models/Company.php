@@ -31,6 +31,8 @@ use SilverStripe\ORM\HasManyList;
  */
 class Company extends Contact
 {
+    /** Optional CSS icon for class-aware creation menus. */
+    private static string $class_icon = 'font-icon-home';
 
     /**
      * @inheritdoc

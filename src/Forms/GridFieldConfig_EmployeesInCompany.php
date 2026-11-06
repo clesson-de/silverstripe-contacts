@@ -37,7 +37,9 @@ class GridFieldConfig_EmployeesInCompany extends GridFieldConfig
         $dataColumns->setDisplayFields([
             'Icon' => [
                 'title'    => '',
-                'callback' => fn($record) => $record->getIcon(),
+                'callback' => fn($record) => $record instanceof Employee
+                    ? $this->getEmployeeIcon($record)
+                    : $record->getIcon(),
             ],
             'Name' => [
                 'title'    => _t(Contact::class . '.NAME', 'Display name'),
@@ -55,7 +57,26 @@ class GridFieldConfig_EmployeesInCompany extends GridFieldConfig
 
         $this->extend('updateConfig');
     }
-}
 
+    /**
+     * Returns the employee icon, falling back to the linked person's avatar.
+     *
+     * @param Employee $employee
+     * @return DBField|string
+     */
+    private function getEmployeeIcon(Employee $employee): DBField|string
+    {
+        if ($employee->AvatarID > 0 && $employee->Avatar()->exists()) {
+            return $employee->getIcon();
+        }
+
+        $person = $employee->PersonID > 0 ? $employee->Person() : null;
+        if ($person && $person->AvatarID > 0 && $person->Avatar()->exists()) {
+            return $person->getIcon();
+        }
+
+        return $employee->getIcon();
+    }
+}
 
 

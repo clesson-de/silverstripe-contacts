@@ -41,6 +41,9 @@ use SilverStripe\Forms\TextField;
  */
 class Person extends Contact
 {
+    /** Optional CSS icon for class-aware creation menus. */
+    private static string $class_icon = 'font-icon-torso';
+
     /**
      * @inheritdoc
      */
@@ -314,4 +317,3 @@ class Person extends Contact
         return $fields;
     }
 }
-

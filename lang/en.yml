@@ -1,4 +1,11 @@
 en:
+  Clesson\Silverstripe\Contacts\Forms\GridFieldConfig_ContactsInContactManager:
+    DOWNLOADS: 'Downloads'
+    FILTERS: 'Filters'
+    ACTIONS: 'Actions'
+    EMAIL: 'Email'
+    SEARCH_ADDRESS: 'Address'
+    MOBILE_LABEL: 'Mobile'
   Clesson\Silverstripe\Contacts\Common:
     ID: 'ID'
     CREATED: 'Created'
@@ -134,6 +141,7 @@ en:
     PLURALNAME: 'Employees'
     PERSON: 'Person'
     COMPANY: 'Company'
+    DEPARTMENT: 'Department'
     ADDRESS: 'Work address'
 
   Clesson\Silverstripe\Contacts\Extensions\ContactableMember:

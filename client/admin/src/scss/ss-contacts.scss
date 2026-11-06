@@ -6,6 +6,58 @@ $lightblue: #d8e4eb;
 $blue: #e9f0f4;
 $darkblue: #004e7f;
 
+.gridfield-pro-toolbar {
+    .gridfield-pro-toolbar__item:has(> .contacts-address-filter) {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .contacts-address-filter {
+        --contacts-address-filter-padding: 0;
+        min-width: 0;
+        max-width: 100%;
+
+        select {
+            width: 150px;
+            max-width: 100%;
+            min-height: 30px;
+            margin: 0;
+            padding: 0.3rem 2rem 0.3rem 0.55rem;
+            border: 1px solid #9cacbf;
+            border-radius: 0.25rem;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23244568' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 0.65rem center;
+            color: #244568;
+            font-size: 1rem;
+        }
+
+        &:has(+ .contacts-address-filter) select {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        + .contacts-address-filter select {
+            margin-left: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        select:focus-visible {
+            position: relative;
+            z-index: 1;
+            outline: 2px solid #006cb5;
+            outline-offset: 2px;
+        }
+    }
+}
+
+@media (pointer: coarse) {
+    .gridfield-pro-toolbar .contacts-address-filter select {
+        min-height: 44px;
+    }
+}
+
 
 /* .contact-form -> ModelAdmin */
 /* .contact-form -> Contact DetailView */

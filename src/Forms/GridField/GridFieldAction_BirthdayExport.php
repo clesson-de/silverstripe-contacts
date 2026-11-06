@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Forms\GridField;
 
 use Clesson\Silverstripe\Contacts\Models\Person;
+use Clesson\Silverstripe\Forms\GridField\GridFieldMenuItemProvider;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -27,9 +28,16 @@ use SilverStripe\Model\List\SS_List;
  * @package Clesson\Silverstripe\Contacts
  * @subpackage Forms\GridField
  */
-class GridFieldAction_BirthdayExport implements GridField_HTMLProvider, GridField_URLHandler
+class GridFieldAction_BirthdayExport implements GridField_HTMLProvider, GridField_URLHandler, GridFieldMenuItemProvider
 {
     use Injectable;
+    use ContactDownloadMenuProvider;
+
+    /** English fallback for the existing translated download label. */
+    private const DOWNLOAD_LABEL = 'Birthdays (Excel)';
+
+    /** Icon used by the download menu entry. */
+    private const DOWNLOAD_ICON = 'down-circled';
 
     /**
      * Fragment in which the export button is rendered.
@@ -49,6 +57,9 @@ class GridFieldAction_BirthdayExport implements GridField_HTMLProvider, GridFiel
      */
     public function getHTMLFragments($gridField): array
     {
+        if ($this->menuOnly || !$this->canDownload()) {
+            return [];
+        }
         $url   = $gridField->Link(self::URL_SEGMENT);
         $label = htmlspecialchars(
             _t(__CLASS__ . '.BUTTON_LABEL', 'Geburtstage (Excel)'),
@@ -84,6 +95,7 @@ class GridFieldAction_BirthdayExport implements GridField_HTMLProvider, GridFiel
      */
     public function handleExport(GridField $gridField, HTTPRequest $request): HTTPResponse
     {
+        $this->requireDownloadPermission();
         $list     = $this->getFilteredList($gridField);
         $filename = 'Geburtstage_' . date('Y-m-d') . '.xlsx';
 
@@ -189,4 +201,3 @@ class GridFieldAction_BirthdayExport implements GridField_HTMLProvider, GridFiel
             ->setBody($content);
     }
 }
-

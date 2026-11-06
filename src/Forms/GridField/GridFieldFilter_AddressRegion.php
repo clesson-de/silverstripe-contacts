@@ -29,6 +29,11 @@ class GridFieldFilter_AddressRegion implements GridField_HTMLProvider, GridField
      */
     private const STATE_KEY = 'GridFieldFilter_AddressRegion';
 
+    /** Allows existing standalone placement or an explicit toolbar fragment. */
+    public function __construct(private string $fragment = 'before')
+    {
+    }
+
     /**
      * Returns the action names handled by this component.
      *
@@ -81,8 +86,9 @@ class GridFieldFilter_AddressRegion implements GridField_HTMLProvider, GridField
         /** @var DropdownField $dropdownField */
         $dropdownField = DropdownField::create('gridfield_address_region_filter', '', $dropdownOptions);
         $dropdownField->setValue($selected);
-        $dropdownField->addExtraClass('no-change-track dropdown');
-        $dropdownField->setAttribute('style', 'min-width:150px;appearance:auto;-webkit-appearance:menulist;');
+        $dropdownField->addExtraClass('no-change-track dropdown no-chosen');
+        $dropdownField->setAttribute('aria-label', _t(__CLASS__ . '.LABEL', 'Region'));
+        $dropdownField->setAttribute('style', 'min-width:150px;');
 
         /** @var GridField_FormAction $actionField */
         $actionField = GridField_FormAction::create(
@@ -100,12 +106,12 @@ class GridFieldFilter_AddressRegion implements GridField_HTMLProvider, GridField
             'this.closest(\'.grid-field\').querySelector(\'.grid-field__address-region-filter-action\').click();'
         );
 
-        $html = '<div class="contacts-address-region-filter" style="display:inline-flex;align-items:center;gap:8px;padding:4px 0 8px;">'
+        $html = '<div class="contacts-address-region-filter contacts-address-filter" style="display:inline-flex;align-items:center;gap:8px;padding:var(--contacts-address-filter-padding, 4px 0 8px);">'
             . $dropdownField->forTemplate()
             . $actionField->forTemplate()
             . '</div>';
 
-        return ['before' => $html];
+        return [$this->fragment => $html];
     }
 
     /**
@@ -155,10 +161,12 @@ class GridFieldFilter_AddressRegion implements GridField_HTMLProvider, GridField
 
         $result = [];
         foreach ($regions as $region) {
-            $result[$region] = $region;
+            if ($region === null || $region === '') {
+                continue;
+            }
+            $result[(string) $region] = (string) $region;
         }
 
         return $result;
     }
 }
-

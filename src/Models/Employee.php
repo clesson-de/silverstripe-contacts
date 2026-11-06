@@ -9,6 +9,7 @@ use Clesson\Silverstripe\Geocoding\Forms\AddressField;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\SearchableDropdownField;
+use SilverStripe\Forms\TextField;
 
 /**
  * Represents the employment relationship between a Person and a Company.
@@ -17,6 +18,7 @@ use SilverStripe\Forms\SearchableDropdownField;
  * @property int $PersonID
  * @property int $CompanyID
  * @property int $AddressID
+ * @property string $Department
  * @method Person Person()
  * @method Company Company()
  * @method Address Address()
@@ -26,11 +28,20 @@ use SilverStripe\Forms\SearchableDropdownField;
  */
 class Employee extends Contact
 {
+    /** Optional CSS icon for class-aware creation menus. */
+    private static string $class_icon = 'font-icon-sitemap';
 
     /**
      * @inheritdoc
      */
     private static string $table_name = 'Contacts_Employee';
+
+    /**
+     * @inheritdoc
+     */
+    private static array $db = [
+        'Department' => 'Varchar(100)',
+    ];
 
     /**
      * @inheritdoc
@@ -50,7 +61,8 @@ class Employee extends Contact
         $labels['PersonID']  = _t(__CLASS__ . '.PERSON', 'Person');
         $labels['Company']   = _t(__CLASS__ . '.COMPANY', 'Company');
         $labels['CompanyID'] = _t(__CLASS__ . '.COMPANY', 'Company');
-        $labels['Address']   = _t(__CLASS__ . '.ADDRESS', 'Work address');
+        $labels['Department'] = _t(__CLASS__ . '.DEPARTMENT', 'Department');
+        $labels['Address']    = _t(__CLASS__ . '.ADDRESS', 'Work address');
         return $labels;
     }
 
@@ -124,6 +136,10 @@ class Employee extends Contact
         $companyField = SearchableDropdownField::create('CompanyID', $this->fieldLabel('Company'), Company::get()->Sort('Name ASC'));
         $companyField->setEmptyString('');
         $fields->add($companyField);
+
+        /** @var TextField $departmentField */
+        $departmentField = TextField::create('Department', $this->fieldLabel('Department'));
+        $fields->add($departmentField);
 
         if ($this->exists()) {
             /** @var AddressField $addressField */

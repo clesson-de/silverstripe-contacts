@@ -3,6 +3,7 @@
 namespace Clesson\Silverstripe\Contacts\Forms;
 
 use Clesson\Silverstripe\Contacts\Models\ContactTag;
+use Clesson\Silverstripe\Forms\GridField\GridFieldRecordDates;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldButtonRow;
 use SilverStripe\Forms\GridField\GridFieldConfig;
@@ -36,8 +37,11 @@ class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
 
         $this->addComponent(GridFieldButtonRow::create('before'));
         $this->addComponent(GridFieldAddNewButton::create('buttons-before-right'));
-        $this->addComponent(GridFieldSortableHeader::create());
+        $this->addComponent(GridFieldSortableHeader::create()->setFieldSorting([
+            GridFieldRecordDates::COLUMN => 'LastEdited',
+        ]));
         $this->addComponent($dataColumns = GridFieldDataColumns::create());
+        $this->addComponent(GridFieldRecordDates::create());
         $this->addComponent(GridFieldEditButton::create());
         $this->addComponent(GridFieldDeleteAction::create());
 
@@ -52,18 +56,6 @@ class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
                     return DBField::create_field('HTMLText', implode('<br>', $html));
                 },
             ],
-            'Created' => [
-                'title' => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
-                'callback' => function ($record, $column, $grid) {
-                    return DBField::create_field('DBDatetime', $record->Created);
-                },
-            ],
-            'LastEdited' => [
-                'title' => _t('Clesson\Silverstripe\Contacts\Common.LASTEDITED', 'Last edited'),
-                'callback' => function ($record, $column, $grid) {
-                    return DBField::create_field('DBDatetime', $record->LastEdited);
-                },
-            ],
         ]);
 
         $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
@@ -71,4 +63,3 @@ class GridFieldConfig_ContactTagsInContactManager extends GridFieldConfig
     }
 
 }
-

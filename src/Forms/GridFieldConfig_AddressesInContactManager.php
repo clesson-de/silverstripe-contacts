@@ -7,11 +7,15 @@ namespace Clesson\Silverstripe\Contacts\Forms;
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCity;
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressCountry;
 use Clesson\Silverstripe\Contacts\Forms\GridField\GridFieldFilter_AddressRegion;
+use Clesson\Silverstripe\Constants\GridFieldToolbarLayout;
 use Clesson\Silverstripe\Geocoding\Helpers\MapThumbnailHelper;
 use Clesson\Silverstripe\Geocoding\Models\Address;
 use Clesson\Silverstripe\Geocoding\ORM\DBGeoCoordinate;
-use SilverStripe\Forms\GridField\GridFieldAddNewButton;
-use SilverStripe\Forms\GridField\GridFieldButtonRow;
+use Clesson\Silverstripe\Forms\GridField\GridFieldAddNewDropdown;
+use Clesson\Silverstripe\Forms\GridField\GridFieldSearch;
+use Clesson\Silverstripe\Forms\GridField\GridFieldToolbar;
+use Clesson\Silverstripe\Forms\GridField\GridFieldRecordDates;
+use SilverStripe\Forms\GridField\GridFieldLazyLoader;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -41,13 +45,12 @@ class GridFieldConfig_AddressesInContactManager extends GridFieldConfig
     {
         parent::__construct();
 
-        $this->addComponent(GridFieldButtonRow::create('before'));
-        $this->addComponent(GridFieldAddNewButton::create('buttons-before-right'));
-        $this->addComponent(GridFieldFilter_AddressCity::create());
-        $this->addComponent(GridFieldFilter_AddressRegion::create());
-        $this->addComponent(GridFieldFilter_AddressCountry::create());
-        $this->addComponent(GridFieldSortableHeader::create());
+        $this->addToolbar();
+        $this->addComponent(GridFieldSortableHeader::create()->setFieldSorting([
+            GridFieldRecordDates::COLUMN => 'LastEdited',
+        ]));
         $this->addComponent($dataColumns = GridFieldDataColumns::create());
+        $this->addComponent(GridFieldRecordDates::create());
         $this->addComponent(GridFieldEditButton::create());
         $this->addComponent(GridFieldDeleteAction::create());
 
@@ -55,6 +58,20 @@ class GridFieldConfig_AddressesInContactManager extends GridFieldConfig
 
         $this->addComponent(GridFieldDetailForm::create(null, $showPagination, $showAdd));
         $this->extend('updateConfig');
+    }
+
+    /** Keeps the existing address filters together beside a consistent creation action. */
+    private function addToolbar(): void
+    {
+        $toolbar = GridFieldToolbar::install($this);
+        $filters = $toolbar->addItem('address-filters');
+        $this->addComponent(GridFieldLazyLoader::create());
+        $this->addComponent(GridFieldAddNewDropdown::create('buttons-before-right')->setClasses([Address::class]));
+        $this->addComponent(GridFieldFilter_AddressCity::create($filters->getFragment()));
+        $this->addComponent(GridFieldFilter_AddressRegion::create($filters->getFragment()));
+        $this->addComponent(GridFieldFilter_AddressCountry::create($filters->getFragment()));
+        $search = $toolbar->addItem('search', GridFieldToolbarLayout::LEFT, GridFieldToolbarLayout::GROW);
+        $this->addComponent(GridFieldSearch::create(['Name', 'Summary'], $search->getFragment()));
     }
 
     /**
@@ -140,14 +157,7 @@ class GridFieldConfig_AddressesInContactManager extends GridFieldConfig
                     return DBField::create_field('Varchar', $record->getCountry() ?? $record->CountryCode);
                 },
             ],
-            'Created'        => [
-                'title'    => _t('Clesson\Silverstripe\Contacts\Common.CREATED', 'Created'),
-                'callback' => static function ($record): DBField {
-                    return DBField::create_field('DBDatetime', $record->Created);
-                },
-            ],
         ];
     }
 
 }
-

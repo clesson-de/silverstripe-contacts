@@ -30,6 +30,11 @@ class GridFieldFilter_AddressCountry implements GridField_HTMLProvider, GridFiel
      */
     private const STATE_KEY = 'GridFieldFilter_AddressCountry';
 
+    /** Allows existing standalone placement or an explicit toolbar fragment. */
+    public function __construct(private string $fragment = 'before')
+    {
+    }
+
     /**
      * Returns the action names handled by this component.
      *
@@ -82,8 +87,9 @@ class GridFieldFilter_AddressCountry implements GridField_HTMLProvider, GridFiel
         /** @var DropdownField $dropdownField */
         $dropdownField = DropdownField::create('gridfield_address_country_filter', '', $dropdownOptions);
         $dropdownField->setValue($selected);
-        $dropdownField->addExtraClass('no-change-track dropdown');
-        $dropdownField->setAttribute('style', 'min-width:150px;appearance:auto;-webkit-appearance:menulist;');
+        $dropdownField->addExtraClass('no-change-track dropdown no-chosen');
+        $dropdownField->setAttribute('aria-label', _t(__CLASS__ . '.LABEL', 'Country'));
+        $dropdownField->setAttribute('style', 'min-width:150px;');
 
         /** @var GridField_FormAction $actionField */
         $actionField = GridField_FormAction::create(
@@ -101,12 +107,12 @@ class GridFieldFilter_AddressCountry implements GridField_HTMLProvider, GridFiel
             'this.closest(\'.grid-field\').querySelector(\'.grid-field__address-country-filter-action\').click();'
         );
 
-        $html = '<div class="contacts-address-country-filter" style="display:inline-flex;align-items:center;gap:8px;padding:4px 0 8px;">'
+        $html = '<div class="contacts-address-country-filter contacts-address-filter" style="display:inline-flex;align-items:center;gap:8px;padding:var(--contacts-address-filter-padding, 4px 0 8px);">'
             . $dropdownField->forTemplate()
             . $actionField->forTemplate()
             . '</div>';
 
-        return ['before' => $html];
+        return [$this->fragment => $html];
     }
 
     /**
@@ -165,4 +171,3 @@ class GridFieldFilter_AddressCountry implements GridField_HTMLProvider, GridFiel
         return $result;
     }
 }
-

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Clesson\Silverstripe\Contacts\Forms\GridField;
 
 use Clesson\Silverstripe\Contacts\Models\Person;
+use Clesson\Silverstripe\Forms\GridField\GridFieldMenuItemProvider;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Injector\Injectable;
@@ -27,9 +28,16 @@ use TCPDF;
  * @package Clesson\Silverstripe\Contacts
  * @subpackage Forms\GridField
  */
-class GridFieldAction_BirthdayPdfExport implements GridField_HTMLProvider, GridField_URLHandler
+class GridFieldAction_BirthdayPdfExport implements GridField_HTMLProvider, GridField_URLHandler, GridFieldMenuItemProvider
 {
     use Injectable;
+    use ContactDownloadMenuProvider;
+
+    /** English fallback for the existing translated download label. */
+    private const DOWNLOAD_LABEL = 'Birthdays (PDF)';
+
+    /** Icon used by the download menu entry. */
+    private const DOWNLOAD_ICON = 'print';
 
     /** Fragment in which the export button is rendered. */
     private const FRAGMENT    = 'buttons-before-right';
@@ -51,6 +59,9 @@ class GridFieldAction_BirthdayPdfExport implements GridField_HTMLProvider, GridF
      */
     public function getHTMLFragments($gridField): array
     {
+        if ($this->menuOnly || !$this->canDownload()) {
+            return [];
+        }
         $url   = $gridField->Link(self::URL_SEGMENT);
         $label = htmlspecialchars(_t(__CLASS__ . '.BUTTON_LABEL', 'Geburtstage (PDF)'), ENT_QUOTES, 'UTF-8');
         $html  = '<a href="' . $url . '" class="btn btn-secondary btn-sm font-icon-print">' . $label . '</a>';
@@ -78,6 +89,7 @@ class GridFieldAction_BirthdayPdfExport implements GridField_HTMLProvider, GridF
      */
     public function handleExport(GridField $gridField, HTTPRequest $request): HTTPResponse
     {
+        $this->requireDownloadPermission();
         $list        = $this->getFilteredList($gridField);
         $birthdayMap = $this->buildBirthdayMap($list);
         $content     = $this->buildPdf($birthdayMap);
@@ -298,4 +310,3 @@ class GridFieldAction_BirthdayPdfExport implements GridField_HTMLProvider, GridF
         return $names[$month] ?? (string) $month;
     }
 }
-
