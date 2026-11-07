@@ -65,7 +65,38 @@ Contact (base class)
 
 `Contact` is not declared with PHP's `abstract` keyword because Silverstripe's ORM requires concrete instantiation for `has_one` stubs. An Injector mapping in `_config/config.yml` maps `Contact` → `Person` as a fallback.
 
-The CMS uses `GridFieldAddNewMultiClass` to offer `Company`, `Person`, and `Employee` as creation options.
+The CMS uses `GridFieldAddNewDropdown` to offer `Company`, `Person`, and `Employee` as creation options.
+
+### Contact manager toolbar
+
+`GridFieldConfig_ContactsInContactManager` uses GridField Pro's responsive
+`GridFieldToolbar`. Contact-type and tag filters occupy named slots on the left;
+the **Downloads** menu and separate creation dropdown remain on the right. The
+toolbar is subtly shaded, without visible section headings. Compact filter
+toggles and action buttons form joined groups with rounded outer corners;
+creation/download buttons share a neutral background and retain icons and text. The alphabet filter
+occupies its own full-width row: a single-line strip on desktop/tablet (scrolling
+locally if necessary), and a character dropdown with an **All** reset on mobile.
+Touch devices retain larger hit targets. Existing filter defaults and export handlers
+are unchanged. The menu groups the phone-list Excel, birthday Excel and birthday
+PDF downloads, preserving the current filter state in their links. Download
+visibility and endpoints require the contact records' view permission
+(`ACCESS_CONTACTS`). The export components retain standalone buttons elsewhere
+when created without the menu-only constructor flag.
+The creation menu uses each model's optional `class_icon` configuration:
+company (`font-icon-home`), person (`font-icon-torso`) and employee
+(`font-icon-sitemap`). Override these through Silverstripe configuration;
+an empty value hides a model's icon without changing its label.
+
+`GridFieldConfig_AddressesInContactManager` uses the same toolbar appearance.
+The existing city, region and country dropdown filters form a compact group on
+the left, with a neutral **New** action on the right. Filter behaviour and address
+columns remain unchanged. The address filter components accept an optional target
+fragment in their constructor; their default remains `before` for existing uses.
+
+Contact, address, contact-group and address-type lists use `GridFieldRecordDates` instead of separate
+timestamp columns. The combined column shows creation and modification dates
+using the current member's formats and sorts by `LastEdited`.
 
 ### Shared fields (on `Contact`)
 
