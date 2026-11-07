@@ -195,6 +195,15 @@ Clesson\Silverstripe\Geocoding\Models\AddressType:
 
 ## Developer Documentation
 
+### CodeGuard
+
+CodeGuard is included as a development dependency. Before each commit, run the
+module checks and review the results:
+
+```bash
+vendor/bin/silverstripe-codeguard check --type=module
+```
+
 ### Query helpers
 
 ```php
